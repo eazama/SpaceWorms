@@ -8,7 +8,7 @@ public class PlayerShooting : MonoBehaviour {
 	public float attackSpeed = .5f;
 	public int bulletSpeed = 500;
 	float coolDown;
-	public int bulletsout;
+	public int bulletsout =0;
 	public int maxBullets = 2;
 
 	public float offsetValue = .7f;
@@ -60,6 +60,4 @@ public class PlayerShooting : MonoBehaviour {
 		}
 		coolDown = Time.time + attackSpeed;
 	}
-
-	public void BulletDestroyed(){ bulletsout -= 1;}
 }
