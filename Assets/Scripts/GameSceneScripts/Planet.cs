@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Planet : MonoBehaviour {
 
+	public int lives = 3;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -15,7 +17,10 @@ public class Planet : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col){
 		if (col.gameObject.tag == "Centipede") {
-			Debug.Log("Planet hit");
+			print("Planet hit");
+			lives-=1;
 		}
 	}
+
+
 }
