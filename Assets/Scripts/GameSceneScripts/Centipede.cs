@@ -3,10 +3,11 @@ using System.Collections;
 
 public class Centipede : MonoBehaviour {
 
-	public int speed = 1;
+	public int speed = 300;
 
 	public string origin = "top";
 	public string direction = "right";
+	public CentipedeBody nextSegment;
 
 	// Use this for initialization
 	void Start () {
@@ -17,9 +18,16 @@ public class Centipede : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		if (col.gameObject.tag == "Barrier" ||col.gameObject.tag == "Centipede") {
-			Debug.Log ("Triggered");
+		if (col.gameObject.tag == "Barrier" || col.gameObject.tag == "Centipede") {
+			CentipedeBody centi= col.gameObject.GetComponent<CentipedeBody>();
+			if(centi != null && isBodySegment(centi)){
+				return;
+			}
 			StopAllCoroutines();
+			if (nextSegment != null) {
+				nextSegment.stopMove();
+				nextSegment.startMove(nextSegment.rigidbody.position, gameObject.rigidbody.position);
+			}
 			StartCoroutine(ReverseDirection());
 		}
 		if (col.gameObject.tag == "Bullet") {
@@ -28,13 +36,16 @@ public class Centipede : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Move(Vector3 from, Vector3 to){
+	public IEnumerator Move(Vector3 from, Vector3 to){
 		float startTime = Time.time;
 		float dist = Vector3.Distance(from, to);
 		while(gameObject.rigidbody.position != to){
 			float timePassed = (Time.time - startTime)*speed;
 			gameObject.rigidbody.position = Vector3.Lerp (from, to, timePassed/dist);
 			yield return null;
+		}
+		if (nextSegment != null) {
+			nextSegment.startMove(from, to);
 		}
 	}
 
@@ -81,6 +92,7 @@ public class Centipede : MonoBehaviour {
 	}
 
 	IEnumerator MoveOnceDirection(string direction){
+		Vector3 pos = gameObject.rigidbody.position;
 		Vector3 newPos = gameObject.rigidbody.position;
 		switch (direction) {
 		case "down":
@@ -96,6 +108,17 @@ public class Centipede : MonoBehaviour {
 			newPos += Vector3.left * gameObject.transform.localScale.x;
 			break;
 		}
-		yield return StartCoroutine(Move(gameObject.rigidbody.position, newPos));
+		yield return StartCoroutine(Move(pos, newPos));
+	}
+
+	bool isBodySegment(CentipedeBody check){
+		CentipedeBody cb = nextSegment;
+		while(cb != null){
+			if(check == cb){
+				return true;
+			}
+			cb = cb.nextSegment;
+		}
+		return false;
 	}
 }
