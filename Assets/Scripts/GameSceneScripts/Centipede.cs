@@ -10,7 +10,6 @@ public class Centipede : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		StartCoroutine (ReverseDirection ());
 	}
 	
 	// Update is called once per frame
@@ -18,7 +17,8 @@ public class Centipede : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		if (col.gameObject.tag == "Barrier") {
+		if (col.gameObject.tag == "Barrier" ||col.gameObject.tag == "Centipede") {
+			Debug.Log ("Triggered");
 			StopAllCoroutines();
 			StartCoroutine(ReverseDirection());
 		}
@@ -70,7 +70,6 @@ public class Centipede : MonoBehaviour {
 			direction = "left";
 			break;
 		}
-		Debug.Log ("move triggered");
 		yield return StartCoroutine (MoveOnceDirection (direction));
 		StartCoroutine (MoveDirection(direction));
 	}
