@@ -5,39 +5,39 @@ public class PlayerShooting : MonoBehaviour {
 
 	public Rigidbody bulletVPrefab;
 	public Rigidbody bulletHPrefab;
-	public float attackSpeed = .5f;
 	public int bulletSpeed = 500;
-	float coolDown;
-	public int bulletsout =0;
-	public int maxBullets = 2;
-
 	public float offsetValue = .7f;
+	public AudioClip laser_shoot;
+
+
+	public bool uBullet = false, dBullet = false, lBullet = false, rBullet = false;
 	// Update is called once per frame
 	 void Update () {
-		if (Time.time >= coolDown || bulletsout < maxBullets) 
+		if(Input.GetKey (KeyCode.UpArrow) && !uBullet)
 		{
-			if(Input.GetKey (KeyCode.UpArrow))
-			{
-				Fire('u');
-			}
-			else if(Input.GetKey (KeyCode.DownArrow))
-			{
-				Fire('d');
-			}
-			else if(Input.GetKey (KeyCode.LeftArrow))
-			{
-				Fire('l');
-			}
-			else if(Input.GetKey (KeyCode.RightArrow))
-			{
-				Fire('r');
-			}
+			Fire('u');
+			uBullet = true;
+		}
+		else if(Input.GetKey (KeyCode.DownArrow) && !dBullet)
+		{
+			Fire('d');
+			dBullet = true;
+		}
+		else if(Input.GetKey (KeyCode.LeftArrow) && !lBullet)
+		{
+			Fire('l');
+			lBullet = true;
+		}
+		else if(Input.GetKey (KeyCode.RightArrow) && !rBullet)
+		{
+			Fire('r');
+			rBullet = true;
 		}
 	}
 
 	void Fire (char direction)
 	{
-		bulletsout++;
+		audio.PlayOneShot (laser_shoot);
 		if (direction == 'u') 
 		{
 			Rigidbody bPrefab = Instantiate (bulletVPrefab, new Vector3(transform.position.x, transform.position.y + offsetValue, transform.position.z), Quaternion.identity) as Rigidbody;
@@ -58,6 +58,5 @@ public class PlayerShooting : MonoBehaviour {
 			Rigidbody bPrefab = Instantiate (bulletHPrefab, new Vector3(transform.position.x + offsetValue, transform.position.y, transform.position.z), Quaternion.identity) as Rigidbody;
 			bPrefab.rigidbody.AddForce(Vector3.right * bulletSpeed);
 		}
-		coolDown = Time.time + attackSpeed;
 	}
 }
