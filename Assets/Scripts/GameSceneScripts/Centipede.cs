@@ -18,7 +18,7 @@ public class Centipede : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		if (col.gameObject.tag == "Barrier" || col.gameObject.tag == "Centipede") {
+		if (col.gameObject.tag == "Barrier" || col.gameObject.tag == "Centipede" || col.gameObject.tag == "Asteroid") {
 			CentipedeBody centi= col.gameObject.GetComponent<CentipedeBody>();
 			if(centi != null && isBodySegment(centi)){
 				return;
