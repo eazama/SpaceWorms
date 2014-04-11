@@ -66,8 +66,7 @@ public class Centipede : MonoBehaviour {
 				newPos += Vector3.left * gameObject.transform.localScale.x;
 				break;
 		}
-		yield return StartCoroutine( Move(pos, newPos));
-		switch (direction) {
+		switch (direction) {//added rotation to this and moved the block up a line to make it rotate 90 degrees on time
 		case "up":
 			direction = "down";
 			break;
@@ -76,9 +75,24 @@ public class Centipede : MonoBehaviour {
 			break;
 		case "left":
 			direction = "right";
+			transform.Rotate (Vector3.forward, 90);
 			break;
 		case "right":
 			direction = "left";
+			transform.Rotate (Vector3.forward, -90);
+			break;
+		}
+		yield return StartCoroutine( Move(pos, newPos));
+		switch (direction) { //rotates it a second time to line it up with the direction it's going
+		case "up":
+			break;
+		case "down":
+			break;
+		case "left":
+			transform.Rotate (Vector3.forward, -90);
+			break;
+		case "right":
+			transform.Rotate (Vector3.forward, 90);
 			break;
 		}
 		yield return StartCoroutine (MoveOnceDirection (direction));
