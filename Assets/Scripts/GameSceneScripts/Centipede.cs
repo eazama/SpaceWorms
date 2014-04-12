@@ -8,9 +8,16 @@ public class Centipede : MonoBehaviour {
 	public string origin = "top";
 	public string direction = "right";
 	public CentipedeBody nextSegment;
+	public Transform asteroid;
+	public Sprite HeadSprite;
 
 	// Use this for initialization
 	void Start () {
+		if (nextSegment != null) {
+			nextSegment.origin = origin;
+			nextSegment.direction = direction;
+		}
+		//StartCoroutine(ReverseDirection());
 	}
 	
 	// Update is called once per frame
@@ -31,8 +38,12 @@ public class Centipede : MonoBehaviour {
 			StartCoroutine(ReverseDirection());
 		}
 		if (col.gameObject.tag == "Bullet") {
-			Destroy (gameObject);
 			Destroy (col.gameObject);
+			DropAsteroid ();
+			if(nextSegment != null){
+				makeNextSegmentHead ();
+			}
+			Destroy (gameObject);
 		}
 	}
 
@@ -50,23 +61,21 @@ public class Centipede : MonoBehaviour {
 	}
 
 	IEnumerator ReverseDirection(){
-		Vector3 pos = gameObject.rigidbody.position;
-		Vector3 newPos = gameObject.rigidbody.position;
 		switch (origin) {
-			case "top":
-				newPos += Vector3.down * gameObject.transform.localScale.x;
-				break;
-			case "bottom":
-				newPos += Vector3.up * gameObject.transform.localScale.x;
-				break;
-			case "left":
-				newPos += Vector3.right * gameObject.transform.localScale.x;
-				break;
-			case "right":
-				newPos += Vector3.left * gameObject.transform.localScale.x;
-				break;
+		case "top":
+			yield return StartCoroutine (MoveOnceDirection ("down"));
+			break;
+		case "bottom":
+			yield return StartCoroutine (MoveOnceDirection ("up"));
+			break;
+		case "left":
+			yield return StartCoroutine (MoveOnceDirection ("right"));
+			break;
+		case "right":
+			yield return StartCoroutine (MoveOnceDirection ("left"));
+			break;
 		}
-		switch (direction) {//added rotation to this and moved the block up a line to make it rotate 90 degrees on time
+		switch (direction) {
 		case "up":
 			direction = "down";
 			break;
@@ -75,31 +84,16 @@ public class Centipede : MonoBehaviour {
 			break;
 		case "left":
 			direction = "right";
-			transform.Rotate (Vector3.forward, 90);
 			break;
 		case "right":
 			direction = "left";
-			transform.Rotate (Vector3.forward, -90);
-			break;
-		}
-		yield return StartCoroutine( Move(pos, newPos));
-		switch (direction) { //rotates it a second time to line it up with the direction it's going
-		case "up":
-			break;
-		case "down":
-			break;
-		case "left":
-			transform.Rotate (Vector3.forward, -90);
-			break;
-		case "right":
-			transform.Rotate (Vector3.forward, 90);
 			break;
 		}
 		yield return StartCoroutine (MoveOnceDirection (direction));
 		StartCoroutine (MoveDirection(direction));
 	}
 
-	IEnumerator MoveDirection(string direction){
+	public IEnumerator MoveDirection(string direction){
 		while (true) {
 			yield return StartCoroutine(MoveOnceDirection(direction));
 		}
@@ -110,15 +104,19 @@ public class Centipede : MonoBehaviour {
 		Vector3 newPos = gameObject.rigidbody.position;
 		switch (direction) {
 		case "down":
+			transform.eulerAngles = new Vector3(0,0,180);
 			newPos += Vector3.down * gameObject.transform.localScale.x;
 			break;
 		case "up":
+			transform.eulerAngles = new Vector3(0,0,0);
 			newPos += Vector3.up * gameObject.transform.localScale.x;
 			break;
 		case "right":
+			transform.eulerAngles = new Vector3(0,0,-90);
 			newPos += Vector3.right * gameObject.transform.localScale.x;
 			break;
 		case "left":
+			transform.eulerAngles = new Vector3(0,0,90);
 			newPos += Vector3.left * gameObject.transform.localScale.x;
 			break;
 		}
@@ -134,5 +132,30 @@ public class Centipede : MonoBehaviour {
 			cb = cb.nextSegment;
 		}
 		return false;
+	}
+
+	public void DropAsteroid(){
+		Transform ast = Instantiate (asteroid, new Vector3(Mathf.Round ((transform.position.x/32))*32,
+		                                                   Mathf.Round ((transform.position.y/32))*32,
+		                                                   Mathf.Round ((transform.position.z/32))*32),
+		                             Quaternion.identity) as Transform;
+		
+		ast.transform.eulerAngles = new Vector3(0,0,Random.Range (0,360));
+	}
+	
+	public void makeNextSegmentHead(){
+		nextSegment.StopAllCoroutines();
+		GameObject seg = nextSegment.gameObject;
+		SpriteRenderer sr = seg.GetComponent<SpriteRenderer>() as SpriteRenderer;
+		sr.sprite = HeadSprite;
+		Centipede segScript = seg.AddComponent<Centipede>();
+		CentipedeBody bodySeg = seg.GetComponent<CentipedeBody> ();
+		segScript.nextSegment = bodySeg.nextSegment;
+		segScript.asteroid = asteroid;
+		Destroy(bodySeg);
+		segScript.StartCoroutine(segScript.MoveDirection(segScript.direction));
+		if (segScript.nextSegment != null) {
+			segScript.nextSegment.startMove(segScript.nextSegment.transform.position, segScript.transform.position);
+		}
 	}
 }

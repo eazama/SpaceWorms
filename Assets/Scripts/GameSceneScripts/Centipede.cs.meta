@@ -2,7 +2,10 @@ fileFormatVersion: 2
 guid: 64a2651560178774180ea19445d4cfdf
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - nextSegment: {instanceID: 0}
+  - asteroid: {fileID: 400000, guid: 57e590854e09bda449b849fb0ec0974e, type: 2}
+  - HeadSprite: {fileID: 21300000, guid: e528a060c786ebb49a35d5fec8ccfc8a, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

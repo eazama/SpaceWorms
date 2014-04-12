@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CentipedeBody : MonoBehaviour {
-
-	public int speed = 300;
-	public CentipedeBody nextSegment = null;
+public class CentipedeBody : Centipede {
 
 	// Use this for initialization
 	void Start () {
@@ -16,8 +13,12 @@ public class CentipedeBody : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col){
 		if (col.gameObject.tag == "Bullet") {
-			Destroy (gameObject);
 			Destroy (col.gameObject);
+			DropAsteroid ();
+			if(nextSegment != null){
+				makeNextSegmentHead ();
+			}
+			Destroy (gameObject);
 		}
 	}
 
@@ -35,16 +36,4 @@ public class CentipedeBody : MonoBehaviour {
 		}
 	}
 
-	public IEnumerator Move(Vector3 from, Vector3 to){
-		float startTime = Time.time;
-		float dist = Vector3.Distance(from, to);
-		while(gameObject.rigidbody.position != to){
-			float timePassed = (Time.time - startTime)*speed;
-			gameObject.rigidbody.position = Vector3.Lerp (from, to, timePassed/dist);
-			yield return null;
-		}
-		if (nextSegment != null) {
-			nextSegment.startMove(from, to);
-		}
-	}
 }

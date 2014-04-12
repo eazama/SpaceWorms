@@ -13,4 +13,8 @@ public class Asteroid : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	public void randomRotation(){
+
+	}
 }
