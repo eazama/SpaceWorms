@@ -10,9 +10,11 @@ public class Centipede : MonoBehaviour {
 	public CentipedeBody nextSegment;
 	public Transform asteroid;
 	public Sprite HeadSprite;
+	public AudioClip deathSound;
 
 	// Use this for initialization
 	void Start () {
+		audio.enabled = true;
 		if (nextSegment != null) {
 			nextSegment.origin = origin;
 			nextSegment.direction = direction;
@@ -39,11 +41,14 @@ public class Centipede : MonoBehaviour {
 		}
 		if (col.gameObject.tag == "Bullet") {
 			col.gameObject.SetActive(false);
+			audio.PlayOneShot(deathSound);
+			renderer.enabled = false;
 			DropAsteroid ();
 			if(nextSegment != null){
 				makeNextSegmentHead ();
 			}
 			Destroy (gameObject);
+			//Destroy(gameObject, deathSound.length);
 		}
 	}
 
