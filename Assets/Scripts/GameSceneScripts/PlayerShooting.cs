@@ -9,54 +9,55 @@ public class PlayerShooting : MonoBehaviour {
 	public float offsetValue = .7f;
 	public AudioClip laser_shoot;
 
+	public Rigidbody upBullet;
+	public Rigidbody downBullet;
+	public Rigidbody leftBullet;
+	public Rigidbody rightBullet;
 
-	public bool uBullet = false, dBullet = false, lBullet = false, rBullet = false;
-	// Update is called once per frame
-	 void Update () {
-		if(Input.GetKey (KeyCode.UpArrow) && !uBullet)
-		{
-			Fire('u');
-			uBullet = true;
-		}
-		else if(Input.GetKey (KeyCode.DownArrow) && !dBullet)
-		{
-			Fire('d');
-			dBullet = true;
-		}
-		else if(Input.GetKey (KeyCode.LeftArrow) && !lBullet)
-		{
-			Fire('l');
-			lBullet = true;
-		}
-		else if(Input.GetKey (KeyCode.RightArrow) && !rBullet)
-		{
-			Fire('r');
-			rBullet = true;
-		}
+	void Start(){
+		upBullet = Instantiate (bulletVPrefab) as Rigidbody;
+		downBullet = Instantiate (bulletVPrefab) as Rigidbody;
+		leftBullet = Instantiate (bulletHPrefab) as Rigidbody;
+		rightBullet = Instantiate (bulletHPrefab) as Rigidbody;
+		upBullet.gameObject.SetActive (false);
+		downBullet.gameObject.SetActive (false);
+		leftBullet.gameObject.SetActive (false);
+		rightBullet.gameObject.SetActive (false);
 	}
 
-	void Fire (char direction)
-	{
-		audio.PlayOneShot (laser_shoot);
-		if (direction == 'u') 
+	// Update is called once per frame
+	 void Update () {
+		if(Input.GetKey (KeyCode.UpArrow) && !upBullet.gameObject.activeInHierarchy)
 		{
-			Rigidbody bPrefab = Instantiate (bulletVPrefab, new Vector3(transform.position.x, transform.position.y + offsetValue, transform.position.z), Quaternion.identity) as Rigidbody;
-			bPrefab.rigidbody.AddForce(Vector3.up * bulletSpeed);
-		} 
-		else if (direction == 'd') 
-		{
-			Rigidbody bPrefab = Instantiate (bulletVPrefab, new Vector3(transform.position.x, transform.position.y - offsetValue, transform.position.z), Quaternion.identity) as Rigidbody;
-			bPrefab.rigidbody.AddForce(Vector3.down * bulletSpeed);
+			upBullet.gameObject.SetActive(true);
+			upBullet.transform.position = new Vector3(transform.position.x,
+			                                          transform.position.y + offsetValue,
+			                                          transform.position.z);
+			upBullet.AddForce(Vector3.up * bulletSpeed);
 		}
-		else if (direction == 'l') 
+		else if(Input.GetKey (KeyCode.DownArrow) && !downBullet.gameObject.activeInHierarchy)
 		{
-			Rigidbody bPrefab = Instantiate (bulletHPrefab, new Vector3(transform.position.x - offsetValue, transform.position.y, transform.position.z), Quaternion.identity) as Rigidbody;
-			bPrefab.rigidbody.AddForce(Vector3.left * bulletSpeed);
+			downBullet.gameObject.SetActive(true);
+			downBullet.transform.position = new Vector3(transform.position.x,
+			                                            transform.position.y - offsetValue,
+			                                            transform.position.z);
+			downBullet.AddForce(Vector3.down * bulletSpeed);
 		}
-		else if (direction == 'r') 
+		else if(Input.GetKey (KeyCode.LeftArrow) && !leftBullet.gameObject.activeInHierarchy)
 		{
-			Rigidbody bPrefab = Instantiate (bulletHPrefab, new Vector3(transform.position.x + offsetValue, transform.position.y, transform.position.z), Quaternion.identity) as Rigidbody;
-			bPrefab.rigidbody.AddForce(Vector3.right * bulletSpeed);
+			leftBullet.gameObject.SetActive(true);
+			leftBullet.transform.position = new Vector3(transform.position.x - offsetValue,
+			                                            transform.position.y,
+			                                            transform.position.z);
+			leftBullet.AddForce(Vector3.left * bulletSpeed);
+		}
+		else if(Input.GetKey (KeyCode.RightArrow) && !rightBullet.gameObject.activeInHierarchy)
+		{
+			rightBullet.gameObject.SetActive(true);
+			rightBullet.transform.position = new Vector3(transform.position.x + offsetValue,
+			                                             transform.position.y,
+			                                             transform.position.z);
+			rightBullet.AddForce(Vector3.right * bulletSpeed);
 		}
 	}
 }

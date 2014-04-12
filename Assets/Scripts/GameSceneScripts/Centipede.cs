@@ -38,7 +38,7 @@ public class Centipede : MonoBehaviour {
 			StartCoroutine(ReverseDirection());
 		}
 		if (col.gameObject.tag == "Bullet") {
-			Destroy (col.gameObject);
+			col.gameObject.SetActive(false);
 			DropAsteroid ();
 			if(nextSegment != null){
 				makeNextSegmentHead ();
@@ -151,6 +151,7 @@ public class Centipede : MonoBehaviour {
 		Centipede segScript = seg.AddComponent<Centipede>();
 		CentipedeBody bodySeg = seg.GetComponent<CentipedeBody> ();
 		segScript.nextSegment = bodySeg.nextSegment;
+		segScript.HeadSprite = HeadSprite;
 		segScript.asteroid = asteroid;
 		Destroy(bodySeg);
 		segScript.StartCoroutine(segScript.MoveDirection(segScript.direction));

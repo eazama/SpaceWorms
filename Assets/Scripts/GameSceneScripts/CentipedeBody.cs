@@ -13,7 +13,7 @@ public class CentipedeBody : Centipede {
 	
 	void OnTriggerEnter(Collider col){
 		if (col.gameObject.tag == "Bullet") {
-			Destroy (col.gameObject);
+			col.gameObject.SetActive(false);
 			DropAsteroid ();
 			if(nextSegment != null){
 				makeNextSegmentHead ();

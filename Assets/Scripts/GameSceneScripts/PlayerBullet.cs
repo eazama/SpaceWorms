@@ -11,26 +11,8 @@ public class PlayerBullet : MonoBehaviour {
 
 	void OnBecameInvisible()
 	{
-		float xVel = transform.InverseTransformDirection(rigidbody.velocity).x;
-		float yVel = transform.InverseTransformDirection(rigidbody.velocity).y;
-		PlayerShooting ps = (PlayerShooting) (GameObject.Find ("Player").GetComponent ("PlayerShooting"));
-		if( yVel > 0)
-		{
-			ps.uBullet = false;
-		}
-		else if( yVel < 0)
-		{
-			ps.dBullet = false;
-		}
-		else if( xVel < 0)
-		{
-			ps.lBullet = false;
-		}
-		else if( xVel > 0)
-		{
-			ps.rBullet = false;
-		}
-		Destroy (gameObject);
+		gameObject.rigidbody.velocity = new Vector3(0,0,0);
+		gameObject.SetActive(false);
 	}
 
 }
