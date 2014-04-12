@@ -139,8 +139,6 @@ public class Centipede : MonoBehaviour {
 		                                                   Mathf.Round ((transform.position.y/32))*32,
 		                                                   Mathf.Round ((transform.position.z/32))*32),
 		                             Quaternion.identity) as Transform;
-		
-		ast.transform.eulerAngles = new Vector3(0,0,Random.Range (0,360));
 	}
 	
 	public void makeNextSegmentHead(){
