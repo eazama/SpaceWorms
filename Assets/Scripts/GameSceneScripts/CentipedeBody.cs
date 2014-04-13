@@ -12,13 +12,16 @@ public class CentipedeBody : Centipede {
 	}
 	
 	void OnTriggerEnter(Collider col){
-		if (col.gameObject.tag == "Bullet") {
+		if (col.gameObject.tag == "Bullet" && !dying) {
+			dying = true;
 			col.gameObject.SetActive(false);
+			audio.PlayOneShot(deathSound);
+			renderer.enabled = false;
 			DropAsteroid ();
 			if(nextSegment != null){
 				makeNextSegmentHead ();
 			}
-			Destroy (gameObject);
+			Destroy(gameObject, deathSound.length);
 		}
 	}
 

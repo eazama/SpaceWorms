@@ -11,6 +11,7 @@ public class Centipede : MonoBehaviour {
 	public Transform asteroid;
 	public Sprite HeadSprite;
 	public AudioClip deathSound;
+	protected bool dying = false; //prevents rapidfire shots from spawning multiple asteroids from a single segment
 
 	// Use this for initialization
 	void Start () {
@@ -39,7 +40,8 @@ public class Centipede : MonoBehaviour {
 			}
 			StartCoroutine(ReverseDirection());
 		}
-		if (col.gameObject.tag == "Bullet") {
+		if (col.gameObject.tag == "Bullet" &&!dying) {
+			dying = true;
 			col.gameObject.SetActive(false);
 			audio.PlayOneShot(deathSound);
 			renderer.enabled = false;
@@ -47,8 +49,7 @@ public class Centipede : MonoBehaviour {
 			if(nextSegment != null){
 				makeNextSegmentHead ();
 			}
-			Destroy (gameObject);
-			//Destroy(gameObject, deathSound.length);
+			Destroy(gameObject, deathSound.length);
 		}
 	}
 
@@ -156,6 +157,7 @@ public class Centipede : MonoBehaviour {
 		segScript.nextSegment = bodySeg.nextSegment;
 		segScript.HeadSprite = HeadSprite;
 		segScript.asteroid = asteroid;
+		segScript.deathSound = deathSound;
 		Destroy(bodySeg);
 		segScript.StartCoroutine(segScript.MoveDirection(segScript.direction));
 		if (segScript.nextSegment != null) {
