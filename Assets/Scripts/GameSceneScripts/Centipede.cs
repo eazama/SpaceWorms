@@ -127,6 +127,8 @@ public class Centipede : MonoBehaviour {
 			newPos += Vector3.left * gameObject.transform.localScale.x;
 			break;
 		}
+		newPos.x = Mathf.Round (newPos.x / 32) * 32;
+		newPos.y = Mathf.Round (newPos.y / 32) * 32;
 		yield return StartCoroutine(Move(pos, newPos));
 	}
 
