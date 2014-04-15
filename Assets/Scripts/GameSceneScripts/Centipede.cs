@@ -49,6 +49,7 @@ public class Centipede : MonoBehaviour {
 			if(nextSegment != null){
 				makeNextSegmentHead ();
 			}
+			GameController.segmentsOut--;
 			Destroy(gameObject, deathSound.length);
 		}
 	}
