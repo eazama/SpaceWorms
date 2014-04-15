@@ -5,6 +5,8 @@ public class GameController : MonoBehaviour {
 
 	public GameObject centipede;
 	public GameObject asteroid;
+	public AudioClip BackgroundMusic;
+	public bool playMusic;
 	public float asteroidDensity; //enter a value from 0-100
 	public static int segmentsOut = 3;
 	public int segmentsOutVisible = 0; //debugging purposes
@@ -14,6 +16,10 @@ public class GameController : MonoBehaviour {
 	
 	void Start () {
 		spawnAsteroidLayout ();
+		if (playMusic) 
+		{
+			audio.Play ();
+		}
 	}
 
 	void Update () {
