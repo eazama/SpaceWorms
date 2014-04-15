@@ -13,8 +13,13 @@ public class GameController : MonoBehaviour {
 	public int waveNumber = 1;
 	public float spawnWait = 5.0f;
 	bool newWave = false, enemySpawned = true;
+	public int seed = 0;
 	
 	void Start () {
+		if (seed != 0) {
+			Random.seed = seed;
+		}
+		Debug.Log("Seed: " +Random.seed);
 		spawnAsteroidLayout ();
 		if (playMusic) 
 		{
