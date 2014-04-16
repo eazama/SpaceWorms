@@ -3,11 +3,10 @@ guid: de95be9c47c24e543ac934ff69f77303
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - bulletVPrefab: {fileID: 5400000, guid: 313cc11cee16add4f9141fec86fffe9b, type: 2}
-  - bulletHPrefab: {fileID: 5400000, guid: 05e351aa59fb32045a3750c903509d78, type: 2}
+  - bulletPrefab: {fileID: 5400000, guid: 05e351aa59fb32045a3750c903509d78, type: 2}
   - laser_shoot: {instanceID: 0}
-  - upBullet: {fileID: 400000, guid: 313cc11cee16add4f9141fec86fffe9b, type: 2}
-  - downBullet: {fileID: 400000, guid: 313cc11cee16add4f9141fec86fffe9b, type: 2}
+  - upBullet: {fileID: 5400000, guid: 05e351aa59fb32045a3750c903509d78, type: 2}
+  - downBullet: {fileID: 5400000, guid: 05e351aa59fb32045a3750c903509d78, type: 2}
   - leftBullet: {fileID: 400000, guid: 05e351aa59fb32045a3750c903509d78, type: 2}
   - rightBullet: {fileID: 400000, guid: 05e351aa59fb32045a3750c903509d78, type: 2}
   executionOrder: 0

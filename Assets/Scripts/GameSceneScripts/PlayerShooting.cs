@@ -3,8 +3,7 @@ using System.Collections;
 
 public class PlayerShooting : MonoBehaviour {
 
-	public Rigidbody bulletVPrefab;
-	public Rigidbody bulletHPrefab;
+	public Rigidbody bulletPrefab;
 	public int bulletSpeed = 500;
 	public float offsetValue = .7f;
 	public AudioClip laser_shoot;
@@ -15,10 +14,16 @@ public class PlayerShooting : MonoBehaviour {
 	public Rigidbody rightBullet;
 
 	void Start(){
-		upBullet = Instantiate (bulletVPrefab) as Rigidbody;
-		downBullet = Instantiate (bulletVPrefab) as Rigidbody;
-		leftBullet = Instantiate (bulletHPrefab) as Rigidbody;
-		rightBullet = Instantiate (bulletHPrefab) as Rigidbody;
+		upBullet = Instantiate (bulletPrefab) as Rigidbody;
+		downBullet = Instantiate (bulletPrefab) as Rigidbody;
+		leftBullet = Instantiate (bulletPrefab) as Rigidbody;
+		rightBullet = Instantiate (bulletPrefab) as Rigidbody;
+		upBullet.transform.eulerAngles = new Vector3 (0, 0, 90);
+		downBullet.transform.eulerAngles = new Vector3(0, 0, 90);
+		upBullet.GetComponent<PlayerBullet> ().direction = "up";
+		downBullet.GetComponent<PlayerBullet> ().direction = "down";
+		leftBullet.GetComponent<PlayerBullet> ().direction = "left";
+		rightBullet.GetComponent<PlayerBullet> ().direction = "right";
 		upBullet.gameObject.SetActive (false);
 		downBullet.gameObject.SetActive (false);
 		leftBullet.gameObject.SetActive (false);
@@ -33,7 +38,6 @@ public class PlayerShooting : MonoBehaviour {
 			upBullet.transform.position = new Vector3(transform.position.x,
 			                                          transform.position.y + offsetValue,
 			                                          transform.position.z);
-			upBullet.AddForce(Vector3.up * bulletSpeed);
 		}
 		else if(Input.GetKey (KeyCode.DownArrow) && !downBullet.gameObject.activeInHierarchy)
 		{
@@ -41,7 +45,6 @@ public class PlayerShooting : MonoBehaviour {
 			downBullet.transform.position = new Vector3(transform.position.x,
 			                                            transform.position.y - offsetValue,
 			                                            transform.position.z);
-			downBullet.AddForce(Vector3.down * bulletSpeed);
 		}
 		else if(Input.GetKey (KeyCode.LeftArrow) && !leftBullet.gameObject.activeInHierarchy)
 		{
@@ -49,7 +52,6 @@ public class PlayerShooting : MonoBehaviour {
 			leftBullet.transform.position = new Vector3(transform.position.x - offsetValue,
 			                                            transform.position.y,
 			                                            transform.position.z);
-			leftBullet.AddForce(Vector3.left * bulletSpeed);
 		}
 		else if(Input.GetKey (KeyCode.RightArrow) && !rightBullet.gameObject.activeInHierarchy)
 		{
@@ -57,7 +59,6 @@ public class PlayerShooting : MonoBehaviour {
 			rightBullet.transform.position = new Vector3(transform.position.x + offsetValue,
 			                                             transform.position.y,
 			                                             transform.position.z);
-			rightBullet.AddForce(Vector3.right * bulletSpeed);
 		}
 	}
 }
