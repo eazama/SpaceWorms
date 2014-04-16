@@ -25,19 +25,4 @@ public class CentipedeBody : Centipede {
 			Destroy(gameObject, deathSound.length);
 		}
 	}
-
-	public void startMove(Vector3 from, Vector3 to){
-		StartCoroutine(Move (from, to));
-		if (nextSegment != null) {
-			nextSegment.startMove (nextSegment.rigidbody.position, gameObject.rigidbody.position);
-		}
-	}
-
-	public void stopMove(){
-		StopAllCoroutines ();
-		if (nextSegment != null) {
-			nextSegment.stopMove ();
-		}
-	}
-
 }

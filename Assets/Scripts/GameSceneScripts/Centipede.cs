@@ -12,6 +12,7 @@ public class Centipede : MonoBehaviour {
 	public Sprite HeadSprite;
 	public AudioClip deathSound;
 	protected bool dying = false; //prevents rapidfire shots from spawning multiple asteroids from a single segment
+	public float AtmDrainSpeed = .5f; //Subtract one atmosphere health every X seconds
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +29,7 @@ public class Centipede : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		if (col.gameObject.tag == "Barrier" || col.gameObject.tag == "Centipede" || col.gameObject.tag == "Asteroid") {
+		if (col.tag == "Barrier" || col.tag == "Centipede" || col.tag == "Asteroid") {
 			CentipedeBody centi= col.gameObject.GetComponent<CentipedeBody>();
 			if(centi != null && isBodySegment(centi)){
 				return;
@@ -36,11 +37,11 @@ public class Centipede : MonoBehaviour {
 			StopAllCoroutines();
 			if (nextSegment != null) {
 				nextSegment.stopMove();
-				nextSegment.startMove(nextSegment.rigidbody.position, gameObject.rigidbody.position);
+				nextSegment.startMove(nextSegment.rigidbody.position, rigidbody.position);
 			}
 			StartCoroutine(ReverseDirection());
 		}
-		if (col.gameObject.tag == "Bullet" &&!dying) {
+		if (col.tag == "Bullet" &&!dying) {
 			dying = true;
 			col.gameObject.SetActive(false);
 			audio.PlayOneShot(deathSound);
@@ -51,6 +52,17 @@ public class Centipede : MonoBehaviour {
 			}
 			GameController.segmentsOut--;
 			Destroy(gameObject, deathSound.length);
+		}
+		if (col.tag == "Planet") {
+			stopMove();
+			StartCoroutine (drainHealth(AtmDrainSpeed));
+		}
+	}
+
+	public IEnumerator drainHealth(float interval){
+		while (true) {
+			GameObject.Find ("Atmosphere").GetComponent<Atmosphere> ().subtractHealth ();
+			yield return new WaitForSeconds (interval);
 		}
 	}
 
@@ -165,6 +177,20 @@ public class Centipede : MonoBehaviour {
 		segScript.StartCoroutine(segScript.MoveDirection(segScript.direction));
 		if (segScript.nextSegment != null) {
 			segScript.nextSegment.startMove(segScript.nextSegment.transform.position, segScript.transform.position);
+		}
+	}
+
+	public void startMove(Vector3 from, Vector3 to){
+		StartCoroutine(Move (from, to));
+		if (nextSegment != null) {
+			nextSegment.startMove (nextSegment.rigidbody.position, gameObject.rigidbody.position);
+		}
+	}
+	
+	public void stopMove(){
+		StopAllCoroutines ();
+		if (nextSegment != null) {
+			nextSegment.stopMove ();
 		}
 	}
 }
