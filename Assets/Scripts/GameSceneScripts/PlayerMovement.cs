@@ -37,13 +37,4 @@ public class PlayerMovement : MonoBehaviour {
 			rigidbody.position = pos;
 		}
 	}
-
-	void OnTriggerEnter(Collider col){
-		if (col.gameObject.tag == "Asteroid") {
-			Asteroid asteroid= col.gameObject.GetComponent<Asteroid>();
-			if (asteroid != null) {
-				Debug.Log ("asteroid");
-			}
-		}
-	}
 }

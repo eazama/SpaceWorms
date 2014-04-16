@@ -24,6 +24,7 @@ public class PlayerBullet : MonoBehaviour {
 			rigidbody.position += (Vector3.down * bulletSpeed * Time.deltaTime);
 			break;
 		}
+
 	}
 
 	void OnBecameInvisible()

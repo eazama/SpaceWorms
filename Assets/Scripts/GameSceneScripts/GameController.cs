@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour {
 	void Start () {
 		if (seed != 0) {
 			Random.seed = seed;
+		} else {
+			Random.seed = Random.seed;
 		}
 		Debug.Log("Seed: " +Random.seed);
 		spawnAsteroidLayout ();

@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Asteroid : MonoBehaviour {
 
-	public Asteroid debris = null;
+	public Sprite size2;
+	public Sprite size3;
+	public Sprite size4;
 	public int health = 4;
 	// Use this for initialization
 	void Start () {
@@ -19,6 +21,18 @@ public class Asteroid : MonoBehaviour {
 		if (col.gameObject.tag == "Bullet") {
 			col.gameObject.SetActive(false);
 			health--;
+			SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
+			switch(health){
+			case 3:
+				sr.sprite = size2;
+				break;
+			case 2:
+				sr.sprite = size3;
+				break;
+			case 1:
+				sr.sprite = size4;
+				break;
+			}
 			if(health <=0){
 				Destroy (gameObject);
 			}
