@@ -4,17 +4,18 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
 	public GameObject centipede;
+	public GameObject centipedeBody;
 	public GameObject asteroid;
 	public AudioClip BackgroundMusic;
 	public bool playMusic;
 	public float asteroidDensity; //enter a value from 0-100
-	public static int segmentsOut = 3;
-	public int segmentsOutVisible = 0; //debugging purposes
+	public int segmentsOut = 3;
 	public int waveNumber = 1;
 	public float spawnWait = 5.0f;
 	bool newWave = false, enemySpawned = true;
 	public int seed = 0;
-	
+	GameObject[] segmentCount;
+	//spawns the asteroid layout, plays the music
 	void Start () {
 		if (seed != 0) {
 			Random.seed = seed;
@@ -28,9 +29,10 @@ public class GameController : MonoBehaviour {
 			audio.Play ();
 		}
 	}
-
+	//checks if a new wave should start
 	void Update () {
-		segmentsOutVisible = segmentsOut;
+		segmentCount = GameObject.FindGameObjectsWithTag ("Centipede");
+		segmentsOut = segmentCount.Length;
 		if (segmentsOut == 0 && !newWave && enemySpawned) 
 		{
 			waveNumber++;
@@ -44,7 +46,7 @@ public class GameController : MonoBehaviour {
 			StartCoroutine(spawnEnemyWave());
 		}
 	}
-
+	//function that spawns the layout
 	void spawnAsteroidLayout()
 	{
 		for (int row = 0; row < 25; row++)
@@ -59,15 +61,57 @@ public class GameController : MonoBehaviour {
 			}
 		}
 	}
-
+	//coroutine that will house the wave spawning algorithm
 	IEnumerator spawnEnemyWave()
 	{
 		for (int i = 0; i < waveNumber; i++) 
 		{
-			segmentsOut++;
-			Instantiate (centipede, new Vector3 (0, 416, 0), Quaternion.identity);
-			yield return new WaitForSeconds (spawnWait - ( waveNumber * 0.2f)); //the wait gets shorter as the waves get larger, needs lower bound.
+			spawnCentipede(2);
+			yield return new WaitForSeconds (spawnWait); //the wait gets shorter as the waves get larger, needs lower bound.
 		}
 		enemySpawned = true;
+	}
+	//spawns a centipede with segments # of body segments at one of the 4 spawn points
+	void spawnCentipede(int segments)
+	{
+		int loc = Random.Range (1, 5);
+		int x = 0, y = 0;
+		Centipede centiHead;
+		//Randomly pick one of four spawning locations
+		if (loc == 1) { //top
+			Instantiate (centipede, new Vector3 (0, 416, 0), Quaternion.identity);
+			centiHead = FindObjectOfType(typeof(Centipede)) as Centipede;
+			y = 416;
+		} else if (loc == 2){ //left
+			Instantiate (centipede, new Vector3 (-416, 0, 0), Quaternion.identity);
+			centiHead = FindObjectOfType(typeof(Centipede)) as Centipede;
+			centiHead.origin = "left";
+			centiHead.direction = "down";
+			x = -416;
+		} else if (loc == 3){ //right
+			Instantiate (centipede, new Vector3 (0, -416, 0), Quaternion.identity);
+			centiHead = FindObjectOfType(typeof(Centipede)) as Centipede;
+			centiHead.origin = "bottom";
+			centiHead.direction = "left";
+			y = -416;
+		} else {//bottom
+			Instantiate (centipede, new Vector3 (416, 0, 0), Quaternion.identity);
+			centiHead = FindObjectOfType(typeof(Centipede)) as Centipede;
+			centiHead.origin = "right";
+			centiHead.direction = "up";
+			x = 416;
+		}
+		//body segment spawning loop
+		if (segments > 0) {
+			CentipedeBody centiBody;
+			for (int i = 0; i < segments; i++) { //spawns a new segment, attaches the previous segment's (centiHead) next segment
+				//then makes centihead the newly spawned segment so if it loops again it will repeat the same assigning
+				Instantiate(centipedeBody, new Vector3(x, y, 0), Quaternion.identity);
+				centiBody = FindObjectOfType(typeof(CentipedeBody)) as CentipedeBody;
+				centiHead.nextSegment = centiBody;
+				centiHead = centiBody;
+				segmentsOut++;
+			}
+		}
 	}
 }

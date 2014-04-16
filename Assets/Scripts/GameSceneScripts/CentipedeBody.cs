@@ -21,7 +21,6 @@ public class CentipedeBody : Centipede {
 			if(nextSegment != null){
 				makeNextSegmentHead ();
 			}
-			GameController.segmentsOut--;
 			Destroy(gameObject, deathSound.length);
 		}
 	}
