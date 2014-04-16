@@ -13,6 +13,7 @@ public class Centipede : MonoBehaviour {
 	public AudioClip deathSound;
 	protected bool dying = false; //prevents rapidfire shots from spawning multiple asteroids from a single segment
 	public float AtmDrainSpeed = .5f; //Subtract one atmosphere health every X seconds
+	protected bool isFeeding = false;
 
 	// Use this for initialization
 	void Start () {
@@ -32,6 +33,9 @@ public class Centipede : MonoBehaviour {
 		if (col.tag == "Barrier" || col.tag == "Centipede" || col.tag == "Asteroid") {
 			CentipedeBody centi= col.gameObject.GetComponent<CentipedeBody>();
 			if(centi != null && isBodySegment(centi)){
+				return;
+			}
+			if(isFeeding){
 				return;
 			}
 			StopAllCoroutines();
@@ -55,6 +59,7 @@ public class Centipede : MonoBehaviour {
 		}
 		if (col.tag == "Planet") {
 			stopMove();
+			isFeeding = true;
 			StartCoroutine (drainHealth(AtmDrainSpeed));
 		}
 	}
