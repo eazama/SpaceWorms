@@ -22,7 +22,6 @@ public class Centipede : MonoBehaviour {
 			nextSegment.origin = origin;
 			nextSegment.direction = direction;
 		}
-		//StartCoroutine(ReverseDirection());
 	}
 	
 	// Update is called once per frame
@@ -40,8 +39,7 @@ public class Centipede : MonoBehaviour {
 			}
 			StopAllCoroutines();
 			if (nextSegment != null) {
-				nextSegment.stopMove();
-				nextSegment.startMove(nextSegment.rigidbody.position, rigidbody.position);
+				nextSegment.startMove(nextSegment.rigidbody.position, gameObject.rigidbody.position);
 			}
 			StartCoroutine(ReverseDirection());
 		}
@@ -71,6 +69,9 @@ public class Centipede : MonoBehaviour {
 	}
 
 	public IEnumerator Move(Vector3 from, Vector3 to){
+		if (from.Equals (to)) {
+			yield break;
+		}
 		float startTime = Time.time;
 		float dist = Vector3.Distance(from, to);
 		while(gameObject.rigidbody.position != to){
@@ -123,6 +124,7 @@ public class Centipede : MonoBehaviour {
 	}
 
 	IEnumerator MoveOnceDirection(string direction){
+
 		Vector3 pos = gameObject.rigidbody.position;
 		Vector3 newPos = gameObject.rigidbody.position;
 		switch (direction) {
@@ -160,10 +162,10 @@ public class Centipede : MonoBehaviour {
 	}
 
 	public void DropAsteroid(){
-		Transform ast = Instantiate (asteroid, new Vector3(Mathf.Round ((transform.position.x/32))*32,
-		                                                   Mathf.Round ((transform.position.y/32))*32,
-		                                                   Mathf.Round ((transform.position.z/32))*32),
-		                             Quaternion.identity) as Transform;
+		Instantiate (asteroid, new Vector3(Mathf.Round ((transform.position.x/32))*32,
+		                                   Mathf.Round ((transform.position.y/32))*32,
+		                                   Mathf.Round ((transform.position.z/32))*32),
+		                             Quaternion.identity);
 	}
 	
 	public void makeNextSegmentHead(){
@@ -186,15 +188,9 @@ public class Centipede : MonoBehaviour {
 
 	public void startMove(Vector3 from, Vector3 to){
 		StartCoroutine(Move (from, to));
-		if (nextSegment != null) {
-			nextSegment.startMove (nextSegment.rigidbody.position, gameObject.rigidbody.position);
-		}
 	}
 	
 	public void stopMove(){
 		StopAllCoroutines ();
-		if (nextSegment != null) {
-			nextSegment.stopMove ();
-		}
 	}
 }
