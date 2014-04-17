@@ -15,6 +15,10 @@ public class GameController : MonoBehaviour {
 	bool newWave = false, enemySpawned = true;
 	public int seed = 0;
 	GameObject[] segmentCount;
+	public GUIText scoreText;
+	public static int score;
+	public GUIText lifeText;
+	public static int lives;
 	//spawns the asteroid layout, plays the music
 	void Start () {
 		if (seed != 0) {
@@ -28,6 +32,10 @@ public class GameController : MonoBehaviour {
 		{
 			audio.Play ();
 		}
+		score = 0;
+		lives = 3;
+		UpdateScore ();
+		UpdateLives ();
 	}
 	//checks if a new wave should start
 	void Update () {
@@ -120,5 +128,27 @@ public class GameController : MonoBehaviour {
 				segmentsOut++;
 			}
 		}
+	}
+
+	public void AddScore (int newScoreValue)
+	{
+		score += newScoreValue;
+		UpdateScore ();
+	}
+
+	public void changeLives(int lifeChangeValue)
+	{
+		lives += lifeChangeValue;
+		UpdateLives ();
+	}
+
+	void UpdateScore()
+	{
+		scoreText.text = "" + score;
+	}
+
+	void UpdateLives()
+	{
+		lifeText.text = "" + lives;
 	}
 }

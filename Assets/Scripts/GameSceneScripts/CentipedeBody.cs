@@ -3,8 +3,13 @@ using System.Collections;
 
 public class CentipedeBody : Centipede {
 
+	private GameController gameController;
 	// Use this for initialization
 	void Start () {
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		if (gameControllerObject != null) {
+			gameController = gameControllerObject.GetComponent <GameController>();
+		}
 	}
 	
 	// Update is called once per frame
@@ -22,6 +27,11 @@ public class CentipedeBody : Centipede {
 				makeNextSegmentHead ();
 			}
 			Destroy(gameObject, deathSound.length);
+			gameController.AddScore(10);
+		}
+		if (col.tag == "Player") {
+			Debug.Log ("Player Hit");
+			gameController.changeLives(-1);
 		}
 	}
 }

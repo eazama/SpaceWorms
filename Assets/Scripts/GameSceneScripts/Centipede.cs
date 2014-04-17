@@ -15,12 +15,18 @@ public class Centipede : MonoBehaviour {
 	public float AtmDrainSpeed = .5f; //Subtract one atmosphere health every X seconds
 	protected bool isFeeding = false;
 
+	private GameController gameController;
+
 	// Use this for initialization
 	void Start () {
 		audio.enabled = true;
 		if (nextSegment != null) {
 			nextSegment.origin = origin;
 			nextSegment.direction = direction;
+		}
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		if (gameControllerObject != null) {
+			gameController = gameControllerObject.GetComponent <GameController>();
 		}
 	}
 	
@@ -43,7 +49,7 @@ public class Centipede : MonoBehaviour {
 			direction = "down";
 		}
 
-		if (col.tag.Contains("Barrier") || col.tag == "Centipede" || col.tag == "Asteroid") {
+		if (col.tag.Contains("Barrier") || col.tag == "Centipede" || col.tag == "Asteroid" || col.tag == "Player") {
 			CentipedeBody centi= col.gameObject.GetComponent<CentipedeBody>();
 			if(centi != null && isBodySegment(centi)){
 				return;
@@ -67,12 +73,17 @@ public class Centipede : MonoBehaviour {
 				makeNextSegmentHead ();
 			}
 			Destroy(gameObject, deathSound.length);
+			gameController.AddScore(100);
 		}
 		if (col.tag == "Planet") {
 			stopMove ();
 			stopWorm();
 			isFeeding = true;
 			StartCoroutine (drainHealth(AtmDrainSpeed));
+		}
+		if (col.tag == "Player") {
+			Debug.Log ("Player Hit");
+			gameController.changeLives(-1);
 		}
 	}
 

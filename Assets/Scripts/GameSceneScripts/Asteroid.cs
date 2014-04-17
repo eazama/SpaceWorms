@@ -7,9 +7,17 @@ public class Asteroid : MonoBehaviour {
 	public Sprite size3;
 	public Sprite size4;
 	public int health = 4;
+	private GameController gameController;
 	// Use this for initialization
 	void Start () {
 		gameObject.transform.eulerAngles = new Vector3(0,0,Random.Range (0,360));
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		if (gameControllerObject != null) {
+			gameController = gameControllerObject.GetComponent <GameController>();
+		}
+		if (gameController == null) {
+			Debug.Log("Cannot find 'GameController' script");
+		}
 	}
 	
 	// Update is called once per frame
@@ -34,6 +42,7 @@ public class Asteroid : MonoBehaviour {
 				break;
 			}
 			if(health <=0){
+				gameController.AddScore(1);
 				Destroy (gameObject);
 			}
 		}
