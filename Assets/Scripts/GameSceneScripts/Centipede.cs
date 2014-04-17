@@ -55,7 +55,8 @@ public class Centipede : MonoBehaviour {
 			Destroy(gameObject, deathSound.length);
 		}
 		if (col.tag == "Planet") {
-			stopMove();
+			stopMove ();
+			stopWorm();
 			isFeeding = true;
 			StartCoroutine (drainHealth(AtmDrainSpeed));
 		}
@@ -85,6 +86,8 @@ public class Centipede : MonoBehaviour {
 	}
 
 	IEnumerator ReverseDirection(){
+		stopWorm ();
+		restartWorm ();
 		switch (origin) {
 		case "top":
 			yield return StartCoroutine (MoveOnceDirection ("down"));
@@ -181,9 +184,10 @@ public class Centipede : MonoBehaviour {
 		segScript.deathSound = deathSound;
 		Destroy(bodySeg);
 		segScript.StartCoroutine(segScript.MoveDirection(segScript.direction));
-		if (segScript.nextSegment != null) {
-			segScript.nextSegment.startMove(segScript.nextSegment.transform.position, segScript.transform.position);
-		}
+		//if (segScript.nextSegment != null) {
+		//	segScript.nextSegment.startMove(segScript.nextSegment.transform.position, segScript.transform.position);
+		//}
+		segScript.restartWorm ();
 	}
 
 	public void startMove(Vector3 from, Vector3 to){
@@ -192,5 +196,21 @@ public class Centipede : MonoBehaviour {
 	
 	public void stopMove(){
 		StopAllCoroutines ();
+	}
+
+	public void stopWorm(){
+		//StopAllCoroutines ();
+		CentipedeBody ns = nextSegment;
+		while (ns != null) {
+			ns.StopAllCoroutines();
+			ns = ns.nextSegment;
+		}
+	}
+	public void restartWorm(){
+		Centipede ns = this;
+		while (ns.nextSegment != null) {
+			ns.nextSegment.startMove(ns.nextSegment.rigidbody.position, ns.rigidbody.position);
+			ns = ns.nextSegment;
+		}
 	}
 }
