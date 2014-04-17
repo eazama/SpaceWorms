@@ -29,7 +29,21 @@ public class Centipede : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		if (col.tag == "Barrier" || col.tag == "Centipede" || col.tag == "Asteroid") {
+		if (origin == "bottom" && col.tag == "BarrierTop") {
+			origin = "top";
+			direction = "right";
+		} else if (origin == "top" && col.tag == "BarrierBottom") {
+			origin = "bottom";
+			direction = "left";
+		} else if (origin == "left" && col.tag == "BarrierRight") {
+			origin = "left";
+			direction = "up";
+		} else if (origin == "right" && col.tag == "BarrierLeft") {
+			origin = "right";
+			direction = "down";
+		}
+
+		if (col.tag.Contains("Barrier") || col.tag == "Centipede" || col.tag == "Asteroid") {
 			CentipedeBody centi= col.gameObject.GetComponent<CentipedeBody>();
 			if(centi != null && isBodySegment(centi)){
 				return;
@@ -102,19 +116,19 @@ public class Centipede : MonoBehaviour {
 			yield return StartCoroutine (MoveOnceDirection ("left"));
 			break;
 		}
-		switch (direction) {
-		case "up":
-			direction = "down";
-			break;
-		case "down":
-			direction = "up";
-			break;
-		case "left":
-			direction = "right";
-			break;
-		case "right":
-			direction = "left";
-			break;
+
+		if (origin == "top" || origin == "bottom") {
+			if (rigidbody.position.x >= 0) {
+				direction = "left";
+			} else {
+				direction = "right";
+			}
+		} else {
+			if (rigidbody.position.y >= 0) {
+				direction = "down";
+			} else {
+				direction = "up";
+			}
 		}
 		yield return StartCoroutine (MoveOnceDirection (direction));
 		StartCoroutine (MoveDirection(direction));
