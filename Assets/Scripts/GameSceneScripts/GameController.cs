@@ -64,9 +64,16 @@ public class GameController : MonoBehaviour {
 	//coroutine that will house the wave spawning algorithm
 	IEnumerator spawnEnemyWave()
 	{
-		for (int i = 0; i < waveNumber; i++) 
+		for (int i = 0; i < (waveNumber / 2); i++) 
 		{
-			spawnCentipede(2);
+			if(waveNumber % 5 == 0)
+			{
+				spawnCentipede (16 + Random.Range (0, waveNumber/2));
+				i = waveNumber;
+			}
+			else{
+				spawnCentipede(8 + Random.Range (0, waveNumber/2));
+			}
 			yield return new WaitForSeconds (spawnWait); //the wait gets shorter as the waves get larger, needs lower bound.
 		}
 		enemySpawned = true;
