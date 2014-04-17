@@ -8,6 +8,17 @@ public class PlayerMovement : MonoBehaviour {
 	public float rightClamp = 4.5f;
 	public float upClamp = 4.5f;
 	public float downClamp = -4.5f;
+	public AudioClip deathSound;
+
+	private GameController gameController;
+
+	void Start()
+	{
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		if (gameControllerObject != null) {
+			gameController = gameControllerObject.GetComponent <GameController>();
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () 
@@ -35,6 +46,14 @@ public class PlayerMovement : MonoBehaviour {
 			Vector3 pos = rigidbody.position + (Vector3.down * playerSpeed * Time.deltaTime);
 			pos.y = Mathf.Max(pos.y, downClamp);			
 			rigidbody.position = pos;
+		}
+	}
+	void OnTriggerEnter(Collider col){
+		if (col.tag == "Centipede") {
+			Debug.Log ("Player Hit");
+			gameController.changeLives(-1);
+			transform.position = new Vector3(0, 0, 0);
+			audio.PlayOneShot(deathSound);
 		}
 	}
 }

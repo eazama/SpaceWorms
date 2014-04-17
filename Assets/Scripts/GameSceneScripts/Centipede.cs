@@ -81,10 +81,6 @@ public class Centipede : MonoBehaviour {
 			isFeeding = true;
 			StartCoroutine (drainHealth(AtmDrainSpeed));
 		}
-		if (col.tag == "Player") {
-			Debug.Log ("Player Hit");
-			gameController.changeLives(-1);
-		}
 	}
 
 	public IEnumerator drainHealth(float interval){

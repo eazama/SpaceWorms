@@ -29,9 +29,5 @@ public class CentipedeBody : Centipede {
 			Destroy(gameObject, deathSound.length);
 			gameController.AddScore(10);
 		}
-		if (col.tag == "Player") {
-			Debug.Log ("Player Hit");
-			gameController.changeLives(-1);
-		}
 	}
 }

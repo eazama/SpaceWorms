@@ -150,5 +150,9 @@ public class GameController : MonoBehaviour {
 	void UpdateLives()
 	{
 		lifeText.text = "" + lives;
+		if (lives <= 0) {
+			lives = 0;
+			Application.LoadLevel (0);
+		}
 	}
 }
