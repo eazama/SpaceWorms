@@ -15,7 +15,7 @@ public class Centipede : MonoBehaviour {
 	public float AtmDrainSpeed = .5f; //Subtract one atmosphere health every X seconds
 	protected bool isFeeding = false;
 
-	private GameController gameController;
+	public GameController gameController;
 
 	// Use this for initialization
 	void Start () {
@@ -202,6 +202,7 @@ public class Centipede : MonoBehaviour {
 		sr.sprite = HeadSprite;
 		Centipede segScript = seg.AddComponent<Centipede>();
 		CentipedeBody bodySeg = seg.GetComponent<CentipedeBody> ();
+		segScript.gameController = gameController;
 		segScript.nextSegment = bodySeg.nextSegment;
 		segScript.HeadSprite = HeadSprite;
 		segScript.asteroid = asteroid;

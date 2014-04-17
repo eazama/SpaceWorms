@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter(Collider col){
-		if (col.tag == "Centipede"){
+		if (col.tag == "Centipede" && col.gameObject.activeInHierarchy){
 			transform.position = new Vector3(0, 0, 0);
 			Debug.Log ("Player Hit");
 			gameController.changeLives(-1);

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CentipedeBody : Centipede {
 
-	private GameController gameController;
+	//public GameController gameController;
 	// Use this for initialization
 	void Start () {
 		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
