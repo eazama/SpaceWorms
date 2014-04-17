@@ -49,10 +49,10 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter(Collider col){
-		if (col.tag == "Centipede") {
+		if (col.tag == "Centipede"){
+			transform.position = new Vector3(0, 0, 0);
 			Debug.Log ("Player Hit");
 			gameController.changeLives(-1);
-			transform.position = new Vector3(0, 0, 0);
 			audio.PlayOneShot(deathSound);
 		}
 	}

@@ -19,19 +19,22 @@ public class Centipede : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		if (gameControllerObject != null) {
+			gameController = gameControllerObject.GetComponent <GameController>();
+		}
 		audio.enabled = true;
 		if (nextSegment != null) {
 			nextSegment.origin = origin;
 			nextSegment.direction = direction;
 		}
-		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
-		if (gameControllerObject != null) {
-			gameController = gameControllerObject.GetComponent <GameController>();
-		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (nextSegment == null) {
+			speed = 550;
+		}
 	}
 
 	void OnTriggerEnter(Collider col){
@@ -49,7 +52,7 @@ public class Centipede : MonoBehaviour {
 			direction = "down";
 		}
 
-		if (col.tag.Contains("Barrier") || col.tag == "Centipede" || col.tag == "Asteroid" || col.tag == "Player") {
+		if (col.tag.Contains("Barrier") || col.tag == "Centipede" || col.tag == "Asteroid") {
 			CentipedeBody centi= col.gameObject.GetComponent<CentipedeBody>();
 			if(centi != null && isBodySegment(centi)){
 				return;
