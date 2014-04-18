@@ -52,14 +52,15 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter(Collider col){
-		if (col.tag == "Centipede" && col.gameObject.activeInHierarchy){
-
-			//Destroy (gameObject.collider);
-			//transform.position = new Vector3(0, 0, 0);
-			//gameController.changeLives(-1);
-			anim.SetBool("shipdestroy", true);
-			Debug.Log ("Player Hit");
-			audio.PlayOneShot(deathSound);
+		if (col != null) {
+			if (col.tag == "Centipede" && col.gameObject.activeInHierarchy) {
+				//Destroy (gameObject.collider);
+				//transform.position = new Vector3(0, 0, 0);
+				//gameController.changeLives(-1);
+				anim.SetBool ("shipdestroy", true);
+				Debug.Log ("Player Hit");
+				audio.PlayOneShot (deathSound);
+			}
 		}
 	}
 
