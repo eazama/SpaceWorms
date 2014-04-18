@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour {
 	Animator anim;
 	//Collider tempCollider;
 	private GameController gameController;
+	public static bool canShoot = true;
+	bool canMove = true;
 
 	void Start()
 	{
@@ -26,29 +28,28 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Input.GetKey ("a"))
+		if (canMove) 
 		{
-			Vector3 pos = rigidbody.position + (Vector3.left * playerSpeed * Time.deltaTime);
-			pos.x = Mathf.Max(pos.x, leftClamp);			
-			rigidbody.position = pos;
-		}
-		if(Input.GetKey ("d"))
-		{
-			Vector3 pos = rigidbody.position + (Vector3.right * playerSpeed * Time.deltaTime);
-			pos.x = Mathf.Min(pos.x, rightClamp);			
-			rigidbody.position = pos;
-		}
-		if(Input.GetKey ("w"))
-		{
-			Vector3 pos = rigidbody.position + (Vector3.up * playerSpeed * Time.deltaTime);
-			pos.y = Mathf.Min(pos.y, upClamp);			
-			rigidbody.position = pos;
-		}
-		if(Input.GetKey ("s"))
-		{
-			Vector3 pos = rigidbody.position + (Vector3.down * playerSpeed * Time.deltaTime);
-			pos.y = Mathf.Max(pos.y, downClamp);			
-			rigidbody.position = pos;
+			if (Input.GetKey ("a")) {
+					Vector3 pos = rigidbody.position + (Vector3.left * playerSpeed * Time.deltaTime);
+					pos.x = Mathf.Max (pos.x, leftClamp);			
+					rigidbody.position = pos;
+			}
+			if (Input.GetKey ("d")) {
+					Vector3 pos = rigidbody.position + (Vector3.right * playerSpeed * Time.deltaTime);
+					pos.x = Mathf.Min (pos.x, rightClamp);			
+					rigidbody.position = pos;
+			}
+			if (Input.GetKey ("w")) {
+					Vector3 pos = rigidbody.position + (Vector3.up * playerSpeed * Time.deltaTime);
+					pos.y = Mathf.Min (pos.y, upClamp);			
+					rigidbody.position = pos;
+			}
+			if (Input.GetKey ("s")) {
+					Vector3 pos = rigidbody.position + (Vector3.down * playerSpeed * Time.deltaTime);
+					pos.y = Mathf.Max (pos.y, downClamp);			
+					rigidbody.position = pos;
+			}
 		}
 	}
 	void OnTriggerEnter(Collider col){
@@ -57,6 +58,8 @@ public class PlayerMovement : MonoBehaviour {
 				//Destroy (gameObject.collider);
 				//transform.position = new Vector3(0, 0, 0);
 				//gameController.changeLives(-1);
+				canMove = false;
+				canShoot = false;
 				anim.SetBool ("shipdestroy", true);
 				Debug.Log ("Player Hit");
 				audio.PlayOneShot (deathSound);
@@ -68,5 +71,7 @@ public class PlayerMovement : MonoBehaviour {
 		anim.SetBool("shipdestroy", false);
 		gameController.changeLives(-1);
 		transform.position = new Vector3(0, 0, 0);
+		canMove = true;
+		canShoot = true;
 	}
 }

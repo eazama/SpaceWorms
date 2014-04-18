@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour {
 	public float asteroidDensity; //enter a value from 0-100
 	public int segmentsOut = 3;
 	public int waveNumber = 1;
+	public int areaNumber = 1;
 	public float spawnWait = 5.0f;
 	bool newWave = false, enemySpawned = true;
 	public int seed = 0;
@@ -43,6 +44,10 @@ public class GameController : MonoBehaviour {
 		segmentsOut = segmentCount.Length;
 		if (segmentsOut == 0 && !newWave && enemySpawned) 
 		{
+			if(waveNumber % 5 == 0)
+			{
+				areaNumber++;
+			}
 			waveNumber++;
 			newWave = true;
 			enemySpawned = false;

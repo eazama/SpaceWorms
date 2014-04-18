@@ -32,33 +32,35 @@ public class PlayerShooting : MonoBehaviour {
 
 	// Update is called once per frame
 	 void Update () {
-		if(Input.GetKey (KeyCode.UpArrow) && !upBullet.gameObject.activeInHierarchy)
-		{
+		if(PlayerMovement.canShoot){
+			if(Input.GetKey (KeyCode.UpArrow) && !upBullet.gameObject.activeInHierarchy)
+			{
 			upBullet.gameObject.SetActive(true);
 			upBullet.transform.position = new Vector3(transform.position.x,
 			                                          transform.position.y + offsetValue,
 			                                          transform.position.z);
-		}
-		else if(Input.GetKey (KeyCode.DownArrow) && !downBullet.gameObject.activeInHierarchy)
-		{
-			downBullet.gameObject.SetActive(true);
-			downBullet.transform.position = new Vector3(transform.position.x,
-			                                            transform.position.y - offsetValue,
-			                                            transform.position.z);
-		}
-		else if(Input.GetKey (KeyCode.LeftArrow) && !leftBullet.gameObject.activeInHierarchy)
-		{
-			leftBullet.gameObject.SetActive(true);
-			leftBullet.transform.position = new Vector3(transform.position.x - offsetValue,
-			                                            transform.position.y,
-			                                            transform.position.z);
-		}
-		else if(Input.GetKey (KeyCode.RightArrow) && !rightBullet.gameObject.activeInHierarchy)
-		{
-			rightBullet.gameObject.SetActive(true);
-			rightBullet.transform.position = new Vector3(transform.position.x + offsetValue,
-			                                             transform.position.y,
-			                                             transform.position.z);
+			}
+			else if(Input.GetKey (KeyCode.DownArrow) && !downBullet.gameObject.activeInHierarchy)
+			{
+				downBullet.gameObject.SetActive(true);
+				downBullet.transform.position = new Vector3(transform.position.x,
+				                                            transform.position.y - offsetValue,
+				                                            transform.position.z);
+			}
+			else if(Input.GetKey (KeyCode.LeftArrow) && !leftBullet.gameObject.activeInHierarchy)
+			{
+				leftBullet.gameObject.SetActive(true);
+				leftBullet.transform.position = new Vector3(transform.position.x - offsetValue,
+				                                            transform.position.y,
+				                                            transform.position.z);
+			}
+			else if(Input.GetKey (KeyCode.RightArrow) && !rightBullet.gameObject.activeInHierarchy)
+			{
+				rightBullet.gameObject.SetActive(true);
+				rightBullet.transform.position = new Vector3(transform.position.x + offsetValue,
+				                                             transform.position.y,
+				                                             transform.position.z);
+			}
 		}
 	}
 }
