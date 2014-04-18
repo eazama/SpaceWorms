@@ -9,15 +9,18 @@ public class PlayerMovement : MonoBehaviour {
 	public float upClamp = 4.5f;
 	public float downClamp = -4.5f;
 	public AudioClip deathSound;
-
+	Animator anim;
+	//Collider tempCollider;
 	private GameController gameController;
 
 	void Start()
 	{
+		//tempCollider = gameObject.collider;
 		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
 		if (gameControllerObject != null) {
 			gameController = gameControllerObject.GetComponent <GameController>();
 		}
+		anim = GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -50,10 +53,19 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	void OnTriggerEnter(Collider col){
 		if (col.tag == "Centipede" && col.gameObject.activeInHierarchy){
-			transform.position = new Vector3(0, 0, 0);
+
+			//Destroy (gameObject.collider);
+			//transform.position = new Vector3(0, 0, 0);
+			//gameController.changeLives(-1);
+			anim.SetBool("shipdestroy", true);
 			Debug.Log ("Player Hit");
-			gameController.changeLives(-1);
 			audio.PlayOneShot(deathSound);
 		}
+	}
+
+	void moveToStart(){
+		anim.SetBool("shipdestroy", false);
+		gameController.changeLives(-1);
+		transform.position = new Vector3(0, 0, 0);
 	}
 }
