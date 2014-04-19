@@ -47,6 +47,7 @@ public class GameController : MonoBehaviour {
 			if(waveNumber % 5 == 0)
 			{
 				areaNumber++;
+				//this is probably where the area change animation would go
 			}
 			waveNumber++;
 			newWave = true;
@@ -67,7 +68,7 @@ public class GameController : MonoBehaviour {
 			for (int col = 0; col < 25; col++)
 			{
 				//prevents spawning on top of planet
-				if (Random.Range(0, 100) < asteroidDensity && !( row <= 14 && row > 9 && col <= 14 && col > 9))
+				if (Random.Range(0, 100) < asteroidDensity && !( row <= 15 && row > 8 && col <= 15 && col > 8))
 				{
 					Instantiate (asteroid, new Vector3((row * 32) + -384, (col * 32) - 384, 0), Quaternion.identity);
 				}

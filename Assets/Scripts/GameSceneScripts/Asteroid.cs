@@ -20,8 +20,8 @@ public class Asteroid : MonoBehaviour {
 		if (gameController == null) {
 			Debug.Log("Cannot find 'GameController' script");
 		}
-		if (transform.position.x > -96 && transform.position.x < 96 &&
-		    transform.position.y > -96 && transform.position.y < 96) {
+		if (transform.position.x >= -96 && transform.position.x <= 96 &&
+		    transform.position.y >= -96 && transform.position.y <= 96) {
 			StartCoroutine(explosionCountdown());
 		}
 	}
