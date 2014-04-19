@@ -78,7 +78,7 @@ public class GameController : MonoBehaviour {
 	//coroutine that will house the wave spawning algorithm
 	IEnumerator spawnEnemyWave()
 	{
-		for (int i = 0; i < (waveNumber / 2); i++) 
+		for (int i = 0; i < (waveNumber / 3); i++) 
 		{
 			if(waveNumber % 5 == 0)
 			{

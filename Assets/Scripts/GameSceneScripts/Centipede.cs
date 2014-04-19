@@ -72,6 +72,13 @@ public class Centipede : MonoBehaviour {
 		if (nextSegment == null) {
 			speed = 550;
 		}
+		if (transform.position.x > 416 || transform.position.x < -416 || 
+				transform.position.y > 416 || transform.position.y < -416) {
+			if(nextSegment != null){
+				makeNextSegmentHead ();
+			}
+			Destroy(gameObject);
+		}
 	}
 
 	void OnTriggerEnter(Collider col){
