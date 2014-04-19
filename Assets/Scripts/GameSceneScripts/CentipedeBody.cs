@@ -49,6 +49,10 @@ public class CentipedeBody : Centipede {
 	
 	// Update is called once per frame
 	void Update () {
+		if (gameController.isGameOver) {
+			StopAllCoroutines ();
+			return;
+		}
 	}
 	
 	void OnTriggerEnter(Collider col){

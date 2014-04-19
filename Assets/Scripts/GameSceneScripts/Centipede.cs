@@ -11,7 +11,7 @@ public class Centipede : MonoBehaviour {
 	public Transform asteroid;
 	public Sprite HeadSprite;
 	public AudioClip deathSound;
-	protected bool dying = false; //prevents rapidfire shots from spawning multiple asteroids from a single segment
+	public bool dying = false; //prevents rapidfire shots from spawning multiple asteroids from a single segment
 	public float AtmDrainSpeed = .5f; //Subtract one atmosphere health every X seconds
 	protected bool isFeeding = false;
 	protected Color currentColor;
@@ -69,6 +69,10 @@ public class Centipede : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (gameController.isGameOver) {
+			StopAllCoroutines ();
+			return;
+		}
 		if (nextSegment == null) {
 			speed = 550;
 		}

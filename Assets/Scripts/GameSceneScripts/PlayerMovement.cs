@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour {
 	private GameController gameController;
 	public static bool canShoot = true;
 	bool canMove = true;
+	bool isInvulnerable = false;
 
 	void Start()
 	{
@@ -28,6 +29,11 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		if (gameController.isGameOver) {
+			StopAllCoroutines ();
+			Destroy(gameObject, deathSound.length);
+			return;
+		}
 		if (canMove) 
 		{
 			if (Input.GetKey ("a")) {
@@ -54,7 +60,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	void OnTriggerEnter(Collider col){
 		if (col != null) {
-			if (col.tag == "Centipede" && col.gameObject.activeInHierarchy) {
+			if (col.tag == "Centipede" && !col.GetComponent<Centipede>().dying && !isInvulnerable) {
 				//Destroy (gameObject.collider);
 				//transform.position = new Vector3(0, 0, 0);
 				//gameController.changeLives(-1);
@@ -73,5 +79,25 @@ public class PlayerMovement : MonoBehaviour {
 		transform.position = new Vector3(0, 0, 0);
 		canMove = true;
 		canShoot = true;
+		StartCoroutine (invulnerAbility ());
+	}
+
+	IEnumerator invulnerAbility()
+	{
+		isInvulnerable = true;
+		for (int timer = 0; timer < 5; timer++) {
+			//change to red
+			Color c = gameObject.renderer.material.color;
+			c.g = (0.5f);
+			c.b = (0.5f);
+			gameObject.renderer.material.color = c;
+			yield return new WaitForSeconds (0.25f);
+			//change to normal
+			c.g = (1);
+			c.b = (1);
+			gameObject.renderer.material.color = c;
+			yield return new WaitForSeconds (0.25f);
+		}
+		isInvulnerable = false;
 	}
 }

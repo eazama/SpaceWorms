@@ -6,7 +6,8 @@ public class GameController : MonoBehaviour {
 	public GameObject centipede;
 	public GameObject centipedeBody;
 	public GameObject asteroid;
-	public AudioClip BackgroundMusic;
+	public AudioSource BackgroundMusic;
+	public AudioSource GameOverMusic;
 	public bool playMusic;
 	public float asteroidDensity; //enter a value from 0-100
 	public int segmentsOut = 3;
@@ -14,12 +15,16 @@ public class GameController : MonoBehaviour {
 	public int areaNumber = 1;
 	public float spawnWait = 5.0f;
 	bool newWave = false, enemySpawned = true;
+	public bool isGameOver = false;
 	public int seed = 0;
 	GameObject[] segmentCount;
 	public GUIText scoreText;
 	public static int score;
 	public GUIText lifeText;
 	public static int lives;
+	public GUIText gameOverText;
+	public GUIText gameOverReason;
+	public GUIText gameOverInstructions;
 	//spawns the asteroid layout, plays the music
 	void Start () {
 		if (seed != 0) {
@@ -31,8 +36,11 @@ public class GameController : MonoBehaviour {
 		spawnAsteroidLayout ();
 		if (playMusic) 
 		{
-			audio.Play ();
+			BackgroundMusic.Play();
 		}
+		gameOverInstructions.text = "";
+		gameOverReason.text = "";
+		gameOverText.text = "";
 		score = 0;
 		lives = 3;
 		UpdateScore ();
@@ -40,6 +48,18 @@ public class GameController : MonoBehaviour {
 	}
 	//checks if a new wave should start
 	void Update () {
+		if (isGameOver) {
+			StopAllCoroutines();
+			if(Input.GetKeyDown (KeyCode.R))
+			{
+				gameOverInstructions.text = "";
+				gameOverReason.text = "";
+				gameOverText.text = "";
+				isGameOver = false;
+				Application.LoadLevel(0);
+			}
+			return;
+		}
 		segmentCount = GameObject.FindGameObjectsWithTag ("Centipede");
 		segmentsOut = segmentCount.Length;
 		if (segmentsOut == 0 && !newWave && enemySpawned) 
@@ -158,7 +178,20 @@ public class GameController : MonoBehaviour {
 		lifeText.text = "" + lives;
 		if (lives <= 0) {
 			lives = 0;
-			Application.LoadLevel (0);
+			gameOver ("You've used all of your ships");
+		}
+	}
+
+	public void gameOver(string reason)
+	{
+		gameOverText.text = "GAME OVER";
+		gameOverReason.text = reason;
+		gameOverInstructions.text = "Press 'R' to Restart";
+		isGameOver = true;
+		BackgroundMusic.Stop ();
+		if(playMusic)
+		{
+			GameOverMusic.Play();
 		}
 	}
 }
