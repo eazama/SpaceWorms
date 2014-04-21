@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour {
 	public static bool canShoot = true;
 	bool canMove = true;
 	bool isInvulnerable = false;
+	public bool dying = false;
 
 	void Start()
 	{
@@ -31,7 +32,7 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		if (gameController.isGameOver) {
 			StopAllCoroutines ();
-			Destroy(gameObject, deathSound.length);
+			Destroy(gameObject);
 			return;
 		}
 		if (canMove) 
@@ -60,7 +61,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	void OnTriggerEnter(Collider col){
 		if (col != null) {
-			if (col.tag == "Centipede" && !col.GetComponent<Centipede>().dying && !isInvulnerable) {
+			if (col.tag == "Centipede" && !col.GetComponent<Centipede>().dying && !isInvulnerable && !dying) {
 				//Destroy (gameObject.collider);
 				//transform.position = new Vector3(0, 0, 0);
 				//gameController.changeLives(-1);
@@ -69,11 +70,13 @@ public class PlayerMovement : MonoBehaviour {
 				anim.SetBool ("shipdestroy", true);
 				Debug.Log ("Player Hit");
 				audio.PlayOneShot (deathSound);
+				dying = true;
 			}
 		}
 	}
 
 	void moveToStart(){
+		dying = false;
 		anim.SetBool("shipdestroy", false);
 		gameController.changeLives(-1);
 		transform.position = new Vector3(0, 0, 0);
@@ -88,12 +91,12 @@ public class PlayerMovement : MonoBehaviour {
 		for (int timer = 0; timer < 5; timer++) {
 			//change to red
 			Color c = gameObject.renderer.material.color;
-			c.g = (0.5f);
+			c.r = (0.5f);
 			c.b = (0.5f);
 			gameObject.renderer.material.color = c;
 			yield return new WaitForSeconds (0.25f);
 			//change to normal
-			c.g = (1);
+			c.r = (1);
 			c.b = (1);
 			gameObject.renderer.material.color = c;
 			yield return new WaitForSeconds (0.25f);
