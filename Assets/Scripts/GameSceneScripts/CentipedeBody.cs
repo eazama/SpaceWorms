@@ -2,9 +2,6 @@
 using System.Collections;
 
 public class CentipedeBody : Centipede {
-
-	//public GameController gameController;
-
 	
 	// Update is called once per frame
 	void Update () {
