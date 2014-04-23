@@ -56,7 +56,11 @@ public class GameController : MonoBehaviour {
 				gameOverReason.text = "";
 				gameOverText.text = "";
 				isGameOver = false;
-				Application.LoadLevel(0);
+				Application.LoadLevel("GameScene");
+			}
+			if(Input.GetKeyDown (KeyCode.Escape))
+			{
+				Application.LoadLevel("TitleScene");
 			}
 			return;
 		}
@@ -176,7 +180,7 @@ public class GameController : MonoBehaviour {
 	{
 		gameOverText.text = "GAME OVER";
 		gameOverReason.text = reason;
-		gameOverInstructions.text = "Press 'R' to Restart";
+		gameOverInstructions.text = "             Press 'R' to Restart \n or Esc to return to the Title Screen";
 		isGameOver = true;
 		BackgroundMusic.Stop ();
 		if(playMusic)

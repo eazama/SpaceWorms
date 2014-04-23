@@ -252,6 +252,7 @@ public class Centipede : MonoBehaviour {
 		cen.direction = direction;
 		cen.StartCoroutine(cen.MoveDirection(cen.direction));
 		cen.nextSegment = oldHead.GetComponent<Centipede> ().nextSegment;
+		cen.deathSound = oldHead.GetComponent<Centipede> ().deathSound;
 		Destroy (oldHead);
 
 		/*nextSegment.StopAllCoroutines();

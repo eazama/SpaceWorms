@@ -63,7 +63,7 @@ public class CentipedeBody : Centipede {
 			if(nextSegment != null){
 				makeNextSegmentHead ();
 			}
-			Destroy(gameObject, deathSound.length);
+			Destroy(gameObject, 0.193f);
 			gameController.AddScore(10);
 		}
 	}
