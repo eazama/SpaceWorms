@@ -2,10 +2,11 @@
 using System.Collections;
 
 public class CentipedeBody : Centipede {
-
+	//Animator wormEats;
 	//public GameController gameController;
 	// Use this for initialization
 	void Start () {
+		//wormEats = GetComponent<Animator> ();
 		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
 		if (gameControllerObject != null) {
 			gameController = gameControllerObject.GetComponent <GameController>();

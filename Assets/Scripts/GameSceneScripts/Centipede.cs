@@ -15,11 +15,14 @@ public class Centipede : MonoBehaviour {
 	public float AtmDrainSpeed = .5f; //Subtract one atmosphere health every X seconds
 	protected bool isFeeding = false;
 	protected Color currentColor;
+	public Animator wormEats;
 
 	public GameController gameController;
 
 	// Use this for initialization
 	void Start () {
+
+		//wormEats = Resources.Load<Animator> ("Centipede head anim");
 		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
 		if (gameControllerObject != null) {
 			gameController = gameControllerObject.GetComponent <GameController>();
@@ -130,6 +133,7 @@ public class Centipede : MonoBehaviour {
 			stopMove ();
 			stopWorm();
 			isFeeding = true;
+			wormEats.SetBool ("eatAtmosphere", true);
 			StartCoroutine (drainHealth(AtmDrainSpeed));
 		}
 	}
@@ -244,7 +248,16 @@ public class Centipede : MonoBehaviour {
 	}
 	
 	public void makeNextSegmentHead(){
-		nextSegment.StopAllCoroutines();
+		GameObject oldHead = nextSegment.gameObject;
+		GameObject newHead = Instantiate (Resources.Load ("Centipede head"), oldHead.transform.position,new Quaternion()) as GameObject;
+		Centipede cen = newHead.GetComponent<Centipede> ();
+		cen.origin = origin;
+		cen.direction = direction;
+		cen.StartCoroutine(cen.MoveDirection(cen.direction));
+		cen.nextSegment = oldHead.GetComponent<Centipede> ().nextSegment;
+		Destroy (oldHead);
+
+		/*nextSegment.StopAllCoroutines();
 		GameObject seg = nextSegment.gameObject;
 		SpriteRenderer sr = seg.GetComponent<SpriteRenderer>() as SpriteRenderer;
 		sr.sprite = HeadSprite;
@@ -260,7 +273,7 @@ public class Centipede : MonoBehaviour {
 		//if (segScript.nextSegment != null) {
 		//	segScript.nextSegment.startMove(segScript.nextSegment.transform.position, segScript.transform.position);
 		//}
-		segScript.restartWorm ();
+		segScript.restartWorm ();*/
 	}
 
 	public void startMove(Vector3 from, Vector3 to){
