@@ -6,8 +6,10 @@ public class GameController : MonoBehaviour {
 	public GameObject centipede;
 	public GameObject centipedeBody;
 	public GameObject asteroid;
+	public Atmosphere atmos;
 	public AudioSource BackgroundMusic;
 	public AudioSource GameOverMusic;
+	public AudioSource lifeUpSound;
 	public bool playMusic;
 	public float asteroidDensity; //enter a value from 0-100
 	public int segmentsOut = 3;
@@ -19,7 +21,7 @@ public class GameController : MonoBehaviour {
 	public int seed = 0;
 	GameObject[] segmentCount;
 	public GUIText scoreText;
-	public static int score;
+	public int score;
 	public GUIText lifeText;
 	public static int lives;
 	public GUIText gameOverText;
@@ -71,6 +73,7 @@ public class GameController : MonoBehaviour {
 			if(waveNumber % 5 == 0)
 			{
 				areaNumber++;
+				changeArea();
 				//this is probably where the area change animation would go
 			}
 			waveNumber++;
@@ -120,31 +123,26 @@ public class GameController : MonoBehaviour {
 	void spawnCentipede(int segments)
 	{
 		int loc = Random.Range (1, 5);
-		int x = 0, y = 0;
 		Centipede centiHead;
 		//Randomly pick one of four spawning locations
 		if (loc == 1) { //top
 			Instantiate (centipede, new Vector3 (0, 416, 0), Quaternion.identity);
 			centiHead = FindObjectOfType(typeof(Centipede)) as Centipede;
-			y = 416;
 		} else if (loc == 2){ //left
 			Instantiate (centipede, new Vector3 (-416, 0, 0), Quaternion.identity);
 			centiHead = FindObjectOfType(typeof(Centipede)) as Centipede;
 			centiHead.origin = "left";
 			centiHead.direction = "down";
-			x = -416;
 		} else if (loc == 3){ //right
 			Instantiate (centipede, new Vector3 (0, -416, 0), Quaternion.identity);
 			centiHead = FindObjectOfType(typeof(Centipede)) as Centipede;
 			centiHead.origin = "bottom";
 			centiHead.direction = "left";
-			y = -416;
 		} else {//bottom
 			Instantiate (centipede, new Vector3 (416, 0, 0), Quaternion.identity);
 			centiHead = FindObjectOfType(typeof(Centipede)) as Centipede;
 			centiHead.origin = "right";
 			centiHead.direction = "up";
-			x = 416;
 		}
 		//body segment spawning loop
 		centiHead.addSegment (segments);
@@ -152,8 +150,15 @@ public class GameController : MonoBehaviour {
 
 	public void AddScore (int newScoreValue)
 	{
+		int oldScoreMod = score % 12000;
 		score += newScoreValue;
+		int newScoreMod = score % 12000;
 		UpdateScore ();
+		if ( newScoreMod <= oldScoreMod) {
+			lives++;
+			UpdateLives ();
+			lifeUpSound.Play();
+		}
 	}
 
 	public void changeLives(int lifeChangeValue)
@@ -187,5 +192,12 @@ public class GameController : MonoBehaviour {
 		{
 			GameOverMusic.Play();
 		}
+	}
+
+	public void changeArea()
+	{
+		//this is where the telportation animation should play and the planet should change color
+		atmos.health = 101;
+		atmos.subtractHealth ();
 	}
 }
