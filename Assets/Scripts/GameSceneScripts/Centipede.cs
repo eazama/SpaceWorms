@@ -8,18 +8,18 @@ public class Centipede : MonoBehaviour {
 	public string origin = "top";
 	public string direction = "right";
 	public CentipedeBody nextSegment;
-	public Transform asteroid;
-	public Sprite HeadSprite;
-	public AudioClip deathSound;
+	protected AudioClip deathSound;
 	public bool dying = false; //prevents rapidfire shots from spawning multiple asteroids from a single segment
 	public float AtmDrainSpeed = .5f; //Subtract one atmosphere health every X seconds
 	protected bool isFeeding = false;
 	protected Color currentColor;
+	public Animator wormEats;
 
 	public GameController gameController;
 
 	// Use this for initialization
 	void Start () {
+		deathSound = Resources.Load<AudioClip> ("Centipede_death");
 		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
 		if (gameControllerObject != null) {
 			gameController = gameControllerObject.GetComponent <GameController>();
@@ -130,6 +130,7 @@ public class Centipede : MonoBehaviour {
 			stopMove ();
 			stopWorm();
 			isFeeding = true;
+			wormEats.SetBool ("eatAtmosphere", true);
 			StartCoroutine (drainHealth(AtmDrainSpeed));
 		}
 	}
@@ -237,30 +238,37 @@ public class Centipede : MonoBehaviour {
 	}
 
 	public void DropAsteroid(){
-		Instantiate (asteroid, new Vector3(Mathf.Round ((transform.position.x/32))*32,
+		Instantiate (Resources.Load("Asteroid"), new Vector3(Mathf.Round ((transform.position.x/32))*32,
 		                                   Mathf.Round ((transform.position.y/32))*32,
 		                                   Mathf.Round ((transform.position.z/32))*32),
 		                             Quaternion.identity);
 	}
 	
 	public void makeNextSegmentHead(){
-		nextSegment.StopAllCoroutines();
+		GameObject oldHead = nextSegment.gameObject;
+		GameObject newHead = Instantiate (Resources.Load ("Centipede head"), oldHead.transform.position,new Quaternion()) as GameObject;
+		Centipede cen = newHead.GetComponent<Centipede> ();
+		cen.origin = origin;
+		cen.direction = direction;
+		cen.StartCoroutine(cen.MoveDirection(cen.direction));
+		cen.nextSegment = oldHead.GetComponent<Centipede> ().nextSegment;
+		Destroy (oldHead);
+
+		/*nextSegment.StopAllCoroutines();
 		GameObject seg = nextSegment.gameObject;
 		SpriteRenderer sr = seg.GetComponent<SpriteRenderer>() as SpriteRenderer;
-		sr.sprite = HeadSprite;
+		sr.sprite = Resources.Load<Sprite>("Centipede Head U");
 		Centipede segScript = seg.AddComponent<Centipede>();
 		CentipedeBody bodySeg = seg.GetComponent<CentipedeBody> ();
 		segScript.gameController = gameController;
 		segScript.nextSegment = bodySeg.nextSegment;
-		segScript.HeadSprite = HeadSprite;
-		segScript.asteroid = asteroid;
 		segScript.deathSound = deathSound;
 		Destroy(bodySeg);
 		segScript.StartCoroutine(segScript.MoveDirection(segScript.direction));
 		//if (segScript.nextSegment != null) {
 		//	segScript.nextSegment.startMove(segScript.nextSegment.transform.position, segScript.transform.position);
 		//}
-		segScript.restartWorm ();
+		segScript.restartWorm ();*/
 	}
 
 	public void startMove(Vector3 from, Vector3 to){
