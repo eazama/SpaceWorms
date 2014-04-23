@@ -143,17 +143,7 @@ public class GameController : MonoBehaviour {
 			x = 416;
 		}
 		//body segment spawning loop
-		if (segments > 0) {
-			CentipedeBody centiBody;
-			for (int i = 0; i < segments; i++) { //spawns a new segment, attaches the previous segment's (centiHead) next segment
-				//then makes centihead the newly spawned segment so if it loops again it will repeat the same assigning
-				Instantiate(centipedeBody, new Vector3(x, y, 0), Quaternion.identity);
-				centiBody = FindObjectOfType(typeof(CentipedeBody)) as CentipedeBody;
-				centiHead.nextSegment = centiBody;
-				centiHead = centiBody;
-				segmentsOut++;
-			}
-		}
+		centiHead.addSegment (segments);
 	}
 
 	public void AddScore (int newScoreValue)

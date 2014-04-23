@@ -279,11 +279,31 @@ public class Centipede : MonoBehaviour {
 			ns = ns.nextSegment;
 		}
 	}
+	
 	public void restartWorm(){
 		Centipede ns = this;
 		while (ns.nextSegment != null) {
 			ns.nextSegment.startMove(ns.nextSegment.rigidbody.position, ns.rigidbody.position);
 			ns = ns.nextSegment;
 		}
+	}
+
+	public void addSegment(int segments){
+		Debug.Log ("addSegmentStart");
+		Centipede thisSeg = this;
+		Centipede lastSeg = this;
+		CentipedeBody newSeg;
+		while(lastSeg.nextSegment!=null){
+			lastSeg = lastSeg.nextSegment;
+		}
+		for(int i = 0; i < segments; ++i){
+			GameObject Seg = Instantiate(Resources.Load("Centipede body"), this.transform.position, new Quaternion()) as GameObject;
+			newSeg = Seg.GetComponent<CentipedeBody>();
+			newSeg.origin = lastSeg.origin;
+			newSeg.direction = lastSeg.direction;
+			lastSeg.nextSegment = newSeg;
+			lastSeg = lastSeg.nextSegment;
+		}
+		Debug.Log ("addSegmentEnd");
 	}
 }
