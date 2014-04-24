@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour {
 	public GUIText gameOverText;
 	public GUIText gameOverReason;
 	public GUIText gameOverInstructions;
+	public GameObject WhiteScreen;
 	//spawns the asteroid layout, plays the music
 	void Start () {
 		if (seed != 0) {
@@ -191,6 +192,10 @@ public class GameController : MonoBehaviour {
 		if(playMusic)
 		{
 			GameOverMusic.Play();
+		}
+		if(PlayerPrefs.GetInt("Highest Score", 0) < score)
+		{
+			PlayerPrefs.SetInt("Highest Score", score);
 		}
 	}
 

@@ -12,6 +12,8 @@ public class TitleController : MonoBehaviour {
 	public GUIText WASDArrowsText;
 	public GUIText spacebar;
 	public GUIText instructions;
+	public GUIText HighestScoreText;
+	public GUIText ScoreNumText;
 	bool inMenu;
 	// Use this for initialization
 	void Start () {
@@ -30,6 +32,8 @@ public class TitleController : MonoBehaviour {
 				WASDArrowsText.text = "";
 				spacebar.text = "";
 				instructions.text = "";
+				HighestScoreText.text = "";
+				ScoreNumText.text = "";
 				keySprite.transform.position = new Vector3(-16, 0, 0);
 				cursor.currentPos = 0;
 				cursor.transform.position = cursor.positions[0];
@@ -53,6 +57,18 @@ public class TitleController : MonoBehaviour {
 									"devour the planets' atmospheres to get score!\n" +
 									"You gain a life every 12000 points";
 				keySprite.transform.position = new Vector3(0, 0, 0);
+				inMenu = true;
+			}
+			else if (cursor.currentPos == 2 && !inMenu)
+			{
+				cursor.currentPos = 3;
+				cursor.transform.position = cursor.positions[3];
+				titleText.text = "";
+				howToPlayText.text = "";
+				startGameText.text = "";
+				scoresText.text = "";
+				HighestScoreText.text = "Highest Score:";
+				ScoreNumText.text = "" + PlayerPrefs.GetInt("Highest Score", 0);
 				inMenu = true;
 			}
 		}
