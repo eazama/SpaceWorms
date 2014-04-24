@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: acb2689b6833a8743bef836e926b1a46
+guid: beff5a57d24989c4fbd745bb3d15b54a
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -21,7 +21,7 @@ TextureImporter:
   generateCubemap: 0
   seamlessCubemap: 0
   textureFormat: -2
-  maxTextureSize: 256
+  maxTextureSize: 512
   textureSettings:
     filterMode: 0
     aniso: 1
@@ -45,49 +45,67 @@ TextureImporter:
     compressionQuality: 50
   spriteSheet:
     sprites:
-    - name: destroysh_0
+    - name: ship_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 9
+        x: 9
+        y: 10
         width: 32
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: destroysh_1
+    - name: ship_1
       rect:
         serializedVersion: 2
-        x: 55
-        y: 9
+        x: 47
+        y: 10
         width: 32
-        height: 31
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: destroysh_2
+    - name: ship_2
       rect:
         serializedVersion: 2
-        x: 98
-        y: 16
-        width: 30
-        height: 18
+        x: 83
+        y: 10
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: destroysh_3
+    - name: ship_3
       rect:
         serializedVersion: 2
-        x: 137
-        y: 19
-        width: 26
-        height: 12
+        x: 119
+        y: 10
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: ship_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 10
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: .5, y: .5}
-    - name: destroysh_4
+    - name: ship_5
       rect:
         serializedVersion: 2
-        x: 178
-        y: 20
-        width: 18
-        height: 4
+        x: 195
+        y: 10
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: ship_6
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 9
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: .5, y: .5}
   spritePackingTag: 
