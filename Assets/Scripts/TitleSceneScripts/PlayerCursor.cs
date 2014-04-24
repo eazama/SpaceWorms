@@ -22,10 +22,5 @@ public class PlayerCursor : MonoBehaviour {
 			transform.position = positions[currentPos];
 			audio.PlayOneShot(selectSound);
 		}
-
-		if (Input.GetKey (KeyCode.Space)) {
-			if(currentPos == 0)
-				Application.LoadLevel("GameScene");
-		}
 	}
 }
