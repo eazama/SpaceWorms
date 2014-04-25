@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
 	public AudioSource BackgroundMusic;
 	public AudioSource GameOverMusic;
 	public AudioSource lifeUpSound;
+	public AudioSource teleportSound;
 	public bool playMusic;
 	public float asteroidDensity; //enter a value from 0-100
 	public int segmentsOut = 3;
@@ -27,7 +28,8 @@ public class GameController : MonoBehaviour {
 	public GUIText gameOverText;
 	public GUIText gameOverReason;
 	public GUIText gameOverInstructions;
-	public GameObject WhiteScreen;
+	public GameObject whiteScreen;
+	bool spawnReady = true;
 	//spawns the asteroid layout, plays the music
 	void Start () {
 		if (seed != 0) {
@@ -74,15 +76,15 @@ public class GameController : MonoBehaviour {
 			if(waveNumber % 5 == 0)
 			{
 				areaNumber++;
-				changeArea();
-				//this is probably where the area change animation would go
+				StartCoroutine(changeArea());
+				spawnReady = false;
 			}
 			waveNumber++;
 			newWave = true;
 			enemySpawned = false;
 		}
 
-		if (newWave && !enemySpawned)
+		if (newWave && !enemySpawned && spawnReady)
 		{
 			newWave = false;
 			StartCoroutine(spawnEnemyWave());
@@ -170,12 +172,12 @@ public class GameController : MonoBehaviour {
 
 	void UpdateScore()
 	{
-		scoreText.text = "" + score;
+		scoreText.text = "Score:\n" + score;
 	}
 
 	void UpdateLives()
 	{
-		lifeText.text = "" + lives;
+		lifeText.text = "Lives:\n" + lives;
 		if (lives <= 0) {
 			lives = 0;
 			gameOver ("You've used all of your ships");
@@ -199,10 +201,31 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	public void changeArea()
+	IEnumerator changeArea()
 	{
 		//this is where the telportation animation should play and the planet should change color
+		Color c = whiteScreen.gameObject.renderer.material.color;
+		c.a = (0);
+		whiteScreen.gameObject.renderer.material.color = c;
+		whiteScreen.transform.position = new Vector3 (0, 0, 0);
+		float value;
+		teleportSound.Play ();
+		for (int i = 0; i < 100; i++) {
+			c = whiteScreen.gameObject.renderer.material.color;
+			value = i/100f;
+			c.a = (value);
+			whiteScreen.gameObject.renderer.material.color = c;
+			yield return new WaitForSeconds(0.0001f);
+		}
 		atmos.health = 101;
 		atmos.subtractHealth ();
+		for (int i = 100; i >= 1; i-=1) {
+			c = whiteScreen.gameObject.renderer.material.color;
+			value = i/100f;
+			c.a = (value);
+			whiteScreen.gameObject.renderer.material.color = c;
+			yield return new WaitForSeconds(0.0001f);
+		}
+		spawnReady = true;
 	}
 }
