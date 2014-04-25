@@ -5,16 +5,19 @@ public class TitleController : MonoBehaviour {
 
 	public PlayerCursor cursor;
 	//public GUIText titleText;
-	public GUIText howToPlayText;
-	public GUIText startGameText;
-	public GUIText scoresText;
+	//public GUIText howToPlayText;
+	//public GUIText startGameText;
+	//public GUIText scoresText;
 	public GameObject keySprite;
 	public GUIText WASDArrowsText;
 	public GUIText spacebar;
 	public GUIText instructions;
 	public GUIText HighestScoreText;
 	public GUIText ScoreNumText;
-	public TitleScript title;
+	public TextScript title;
+	public TextScript startGameText;
+	public TextScript howToPlayText;
+	public TextScript highScoreText;
 	
 	//Animator titleAni;
 	bool inMenu;
@@ -29,9 +32,9 @@ public class TitleController : MonoBehaviour {
 			if(inMenu && cursor.currentPos == 3)
 			{
 				//titleText.text = "SPACE WORMS";
-				howToPlayText.text = "How to Play";
-				startGameText.text = "Start Game";
-				scoresText.text = "High Scores";
+				//howToPlayText.text = "How to Play";
+				//startGameText.text = "Start Game";
+				//scoresText.text = "High Scores";
 				WASDArrowsText.text = "";
 				spacebar.text = "";
 				instructions.text = "";
@@ -42,6 +45,9 @@ public class TitleController : MonoBehaviour {
 				cursor.transform.position = cursor.positions[0];
 				inMenu = false;
 				title.titleScreen();
+				startGameText.titleScreen();
+				howToPlayText.titleScreen();
+				highScoreText.titleScreen();
 			}
 			else if(cursor.currentPos == 0 && !inMenu)
 			{
@@ -52,29 +58,35 @@ public class TitleController : MonoBehaviour {
 				cursor.currentPos = 3;
 				cursor.transform.position = cursor.positions[3];
 				//titleText.text = "";
-				howToPlayText.text = "";
-				startGameText.text = "";
-				scoresText.text = "";
+				//howToPlayText.text = "";
+				//startGameText.text = "";
+				//scoresText.text = "";
 				WASDArrowsText.text = "Move                            Shoot in specific direction";
 				spacebar.text = "Shoot All Available Shots";
 				instructions.text = "Destroy the oncoming waves of Space Worms before they\n" +
 									"devour the planets' atmospheres to get score!\n" +
 									"You gain a life every 12000 points";
-				keySprite.transform.position = new Vector3(0, 0, 0);
+				keySprite.transform.position = new Vector3(0, -1, 0);
 				inMenu = true;
-				title.howToPlayScreen();
+				title.notTitleScreen();
+				startGameText.notTitleScreen();
+				howToPlayText.notTitleScreen();
+				highScoreText.notTitleScreen();
 			}
 			else if (cursor.currentPos == 2 && !inMenu)
 			{
 				cursor.currentPos = 3;
 				cursor.transform.position = cursor.positions[3];
 				//titleText.text = "";
-				howToPlayText.text = "";
-				startGameText.text = "";
-				scoresText.text = "";
+				//howToPlayText.text = "";
+				//startGameText.text = "";
+				//scoresText.text = "";
 				HighestScoreText.text = "Highest Score:";
 				ScoreNumText.text = "" + PlayerPrefs.GetInt("Highest Score", 0);
 				inMenu = true;
+				startGameText.notTitleScreen();
+				howToPlayText.notTitleScreen();
+				highScoreText.notTitleScreen();
 			}
 		}
 	}
