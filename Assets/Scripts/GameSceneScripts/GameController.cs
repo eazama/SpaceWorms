@@ -5,7 +5,8 @@ public class GameController : MonoBehaviour {
 
 	public GameObject centipede;
 	public GameObject centipedeBody;
-	public GameObject asteroid;
+	//public GameObject asteroid;
+	public Asteroid asteroid;
 	public Atmosphere atmos;
 	public AudioSource BackgroundMusic;
 	public AudioSource GameOverMusic;

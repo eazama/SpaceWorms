@@ -10,9 +10,11 @@ public class Asteroid : MonoBehaviour {
 	public AudioClip warningBeep;
 	private GameController gameController;
 	public Animator astExplode;
+	public AudioClip deathSound;
 
 	// Use this for initialization
 	void Start () {
+		astExplode = GetComponent<Animator> ();
 		gameObject.transform.eulerAngles = new Vector3(0,0,Random.Range (0,360));
 		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
 		if (gameControllerObject != null) {
@@ -39,16 +41,19 @@ public class Asteroid : MonoBehaviour {
 		if (col.gameObject.tag == "Bullet") {
 			col.gameObject.SetActive(false);
 			health--;
-			SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
+			//SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
 			switch(health){
 			case 3:
-				sr.sprite = size2;
+				//sr.sprite = size2;
+				astExplode.SetBool("size2", true);
 				break;
 			case 2:
-				sr.sprite = size3;
+				//sr.sprite = size3;
+				astExplode.SetBool("size3", true);
 				break;
 			case 1:
-				sr.sprite = size4;
+				//sr.sprite = size4;
+				astExplode.SetBool("size4", true);
 				break;
 			}
 			if(health <=0){
@@ -76,9 +81,37 @@ public class Asteroid : MonoBehaviour {
 			yield return new WaitForSeconds (1);
 		}
 		//destroy asteroid, take 10 health from planet, play deathsound and explosion animation
-		Destroy (gameObject);
-		GameObject.Find ("Atmosphere").GetComponent<Atmosphere> ().health -= 9;
-		GameObject.Find ("Atmosphere").GetComponent<Atmosphere> ().subtractHealth ();
+		//Destroy (gameObject);
+		//astExplode.SetBool("explode", true);
+		explosion ();
 
 	}
+
+	void explosion(){
+		if (health == 4) {
+			astExplode.SetBool("explode", true);
+		}
+		else if (health == 3) {
+			astExplode.SetBool("size2", true);
+			astExplode.SetBool("explode", true);
+		}
+		else if (health == 2) {
+			astExplode.SetBool("size3", true);
+			astExplode.SetBool("explode", true);
+		}
+		else if (health == 1) {
+			astExplode.SetBool("size4", true);
+			astExplode.SetBool("explode", true);
+		}
+	}
+
+	void asteroidDestroy() {
+		audio.PlayOneShot (deathSound);
+		Destroy (gameObject);
+		Debug.Log ("asteroid explodes");
+		GameObject.Find ("Atmosphere").GetComponent<Atmosphere> ().health -= 9;
+		GameObject.Find ("Atmosphere").GetComponent<Atmosphere> ().subtractHealth ();
+	}
+
+
 }
