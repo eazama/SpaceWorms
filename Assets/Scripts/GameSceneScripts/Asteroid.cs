@@ -9,6 +9,7 @@ public class Asteroid : MonoBehaviour {
 	public int health = 4;
 	public AudioClip warningBeep;
 	private GameController gameController;
+	public Animator astExplode;
 
 	// Use this for initialization
 	void Start () {

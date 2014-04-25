@@ -2,7 +2,20 @@ fileFormatVersion: 2
 guid: 07056af98e6e7b242af8b9137858b783
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - centipede: {instanceID: 0}
+  - centipedeBody: {instanceID: 0}
+  - asteroid: {fileID: 100000, guid: 57e590854e09bda449b849fb0ec0974e, type: 2}
+  - atmos: {instanceID: 0}
+  - BackgroundMusic: {instanceID: 0}
+  - GameOverMusic: {instanceID: 0}
+  - lifeUpSound: {instanceID: 0}
+  - scoreText: {instanceID: 0}
+  - lifeText: {instanceID: 0}
+  - gameOverText: {instanceID: 0}
+  - gameOverReason: {instanceID: 0}
+  - gameOverInstructions: {instanceID: 0}
+  - WhiteScreen: {instanceID: 0}
   executionOrder: 100
   icon: {instanceID: 0}
   userData: 
