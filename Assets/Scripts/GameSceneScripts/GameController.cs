@@ -196,10 +196,7 @@ public class GameController : MonoBehaviour {
 		{
 			GameOverMusic.Play();
 		}
-		if(PlayerPrefs.GetInt("Highest Score", 0) < score)
-		{
-			PlayerPrefs.SetInt("Highest Score", score);
-		}
+		insertHighScore (score);
 	}
 
 	IEnumerator changeArea()
@@ -228,5 +225,16 @@ public class GameController : MonoBehaviour {
 			yield return new WaitForSeconds(0.0001f);
 		}
 		spawnReady = true;
+	}
+	public void insertHighScore(int newScore)
+	{
+		int tempScore;
+		for (int i = 1; i <=10; i++) {
+			if (PlayerPrefs.GetInt ("High Score" + i, 0) < newScore) {
+				tempScore = PlayerPrefs.GetInt ("High Score" + i, 0);
+				PlayerPrefs.SetInt ("High Score" + i, newScore);
+				newScore = tempScore;
+			}
+		}
 	}
 }

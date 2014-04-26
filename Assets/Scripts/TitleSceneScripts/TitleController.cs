@@ -81,8 +81,18 @@ public class TitleController : MonoBehaviour {
 				//howToPlayText.text = "";
 				//startGameText.text = "";
 				//scoresText.text = "";
-				HighestScoreText.text = "Highest Score:";
-				ScoreNumText.text = "" + PlayerPrefs.GetInt("Highest Score", 0);
+				HighestScoreText.text = "High Scores:";
+				for (int i = 1; i <=10; i++)
+				{
+					if (i == 10)
+					{
+						ScoreNumText.text += i +"        " + PlayerPrefs.GetInt("High Score" + i, 0) +"\n";
+					}
+					else 
+					{
+						ScoreNumText.text += i +"          " + PlayerPrefs.GetInt("High Score" + i, 0) +"\n";
+					}
+				}
 				inMenu = true;
 				startGameText.notTitleScreen();
 				howToPlayText.notTitleScreen();
