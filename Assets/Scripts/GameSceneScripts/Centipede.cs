@@ -14,6 +14,7 @@ public class Centipede : MonoBehaviour {
 	protected bool isFeeding = false;
 	protected Color currentColor;
 	public Animator wormEats;
+	private bool reversing = false;
 
 	public GameController gameController;
 
@@ -99,7 +100,11 @@ public class Centipede : MonoBehaviour {
 			origin = "right";
 			direction = "down";
 		}
-
+		if (reversing == true && col.tag == "Asteroid") {
+			Destroy (col.gameObject);
+			//addSegment(1);
+			return;
+		}
 		if (col.tag.Contains("Barrier") || col.tag == "Centipede" || col.tag == "Asteroid") {
 			CentipedeBody centi= col.gameObject.GetComponent<CentipedeBody>();
 			if(centi != null && isBodySegment(centi)){
@@ -108,6 +113,7 @@ public class Centipede : MonoBehaviour {
 			if(isFeeding){
 				return;
 			}
+			Debug.Log("Collision");
 			StopAllCoroutines();
 			if (nextSegment != null) {
 				nextSegment.startMove(nextSegment.rigidbody.position, gameObject.rigidbody.position);
@@ -159,6 +165,7 @@ public class Centipede : MonoBehaviour {
 	}
 
 	IEnumerator ReverseDirection(){
+		reversing = true;
 		stopWorm ();
 		restartWorm ();
 		switch (origin) {
@@ -176,6 +183,7 @@ public class Centipede : MonoBehaviour {
 			break;
 		}
 
+		/*
 		if (origin == "top" || origin == "bottom") {
 			if (rigidbody.position.x >= 0) {
 				direction = "left";
@@ -188,9 +196,25 @@ public class Centipede : MonoBehaviour {
 			} else {
 				direction = "up";
 			}
+		}*/
+
+		switch (direction) {
+		case "up":
+			direction = "down";
+			break;
+		case "down":
+			direction = "up";
+			break;
+		case "left":
+			direction = "right";
+			break;
+		case "right":
+			direction = "left";
+			break;
 		}
 		yield return StartCoroutine (MoveOnceDirection (direction));
 		StartCoroutine (MoveDirection(direction));
+		reversing = false;
 	}
 
 	public IEnumerator MoveDirection(string direction){
@@ -205,19 +229,19 @@ public class Centipede : MonoBehaviour {
 		Vector3 newPos = gameObject.rigidbody.position;
 		switch (direction) {
 		case "down":
-			transform.eulerAngles = new Vector3(0,0,180);
+			gameObject.transform.eulerAngles = new Vector3(0,0,180);
 			newPos += Vector3.down * gameObject.transform.localScale.x;
 			break;
 		case "up":
-			transform.eulerAngles = new Vector3(0,0,0);
+			gameObject.transform.eulerAngles = new Vector3(0,0,0);
 			newPos += Vector3.up * gameObject.transform.localScale.x;
 			break;
 		case "right":
-			transform.eulerAngles = new Vector3(0,0,-90);
+			gameObject.transform.eulerAngles = new Vector3(0,0,-90);
 			newPos += Vector3.right * gameObject.transform.localScale.x;
 			break;
 		case "left":
-			transform.eulerAngles = new Vector3(0,0,90);
+			gameObject.transform.eulerAngles = new Vector3(0,0,90);
 			newPos += Vector3.left * gameObject.transform.localScale.x;
 			break;
 		}
@@ -299,14 +323,13 @@ public class Centipede : MonoBehaviour {
 
 	public void addSegment(int segments){
 		Debug.Log ("addSegmentStart");
-		Centipede thisSeg = this;
 		Centipede lastSeg = this;
 		CentipedeBody newSeg;
 		while(lastSeg.nextSegment!=null){
 			lastSeg = lastSeg.nextSegment;
 		}
 		for(int i = 0; i < segments; ++i){
-			GameObject Seg = Instantiate(Resources.Load("Centipede body"), this.transform.position, new Quaternion()) as GameObject;
+			GameObject Seg = Instantiate(Resources.Load("Centipede body"), lastSeg.transform.position, new Quaternion()) as GameObject;
 			newSeg = Seg.GetComponent<CentipedeBody>();
 			newSeg.origin = lastSeg.origin;
 			newSeg.direction = lastSeg.direction;
