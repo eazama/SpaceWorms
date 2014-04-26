@@ -26,10 +26,6 @@ public class Centipede : MonoBehaviour {
 			gameController = gameControllerObject.GetComponent <GameController>();
 		}
 		audio.enabled = true;
-		if (nextSegment != null) {
-			nextSegment.origin = origin;
-			nextSegment.direction = direction;
-		}
 
 		if (gameController.areaNumber % 5 == 1) {//green
 			gameObject.renderer.material.color = new Color(.1f, 1, .1f);
@@ -250,7 +246,7 @@ public class Centipede : MonoBehaviour {
 		cen.direction = direction;
 		cen.StartCoroutine(cen.MoveDirection(cen.direction));
 		cen.nextSegment = oldHead.GetComponent<Centipede> ().nextSegment;
-		//cen.deathSound = oldHead.GetComponent<Centipede> ().deathSound;
+		cen.deathSound = oldHead.GetComponent<Centipede> ().deathSound;
 		Destroy (oldHead);
 	}
 
@@ -263,7 +259,6 @@ public class Centipede : MonoBehaviour {
 	}
 
 	public void stopWorm(){
-		//StopAllCoroutines ();
 		CentipedeBody ns = nextSegment;
 		while (ns != null) {
 			ns.StopAllCoroutines();

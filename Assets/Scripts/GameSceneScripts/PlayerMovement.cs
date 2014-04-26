@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour {
 	public float downClamp = -4.5f;
 	public AudioClip deathSound;
 	Animator anim;
-	//Collider tempCollider;
 	private GameController gameController;
 	public static bool canShoot = true;
 	bool canMove = true;
@@ -19,7 +18,6 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Start()
 	{
-		//tempCollider = gameObject.collider;
 		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
 		if (gameControllerObject != null) {
 			gameController = gameControllerObject.GetComponent <GameController>();
@@ -62,9 +60,6 @@ public class PlayerMovement : MonoBehaviour {
 	void OnTriggerEnter(Collider col){
 		if (col != null) {
 			if (col.tag == "Centipede" && !col.GetComponent<Centipede>().dying && !isInvulnerable && !dying) {
-				//Destroy (gameObject.collider);
-				//transform.position = new Vector3(0, 0, 0);
-				//gameController.changeLives(-1);
 				canMove = false;
 				canShoot = false;
 				anim.SetBool ("shipdestroy", true);

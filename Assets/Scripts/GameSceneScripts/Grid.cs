@@ -24,9 +24,4 @@ public class Grid : MonoBehaviour {
 			col.size = new Vector3(800,0,0);
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

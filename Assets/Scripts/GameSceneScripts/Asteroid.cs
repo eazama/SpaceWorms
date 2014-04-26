@@ -41,18 +41,14 @@ public class Asteroid : MonoBehaviour {
 		if (col.gameObject.tag == "Bullet") {
 			col.gameObject.SetActive(false);
 			health--;
-			//SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
 			switch(health){
 			case 3:
-				//sr.sprite = size2;
 				astExplode.SetBool("size2", true);
 				break;
 			case 2:
-				//sr.sprite = size3;
 				astExplode.SetBool("size3", true);
 				break;
 			case 1:
-				//sr.sprite = size4;
 				astExplode.SetBool("size4", true);
 				break;
 			}
@@ -80,9 +76,6 @@ public class Asteroid : MonoBehaviour {
 			gameObject.renderer.material.color = c;
 			yield return new WaitForSeconds (1);
 		}
-		//destroy asteroid, take 10 health from planet, play deathsound and explosion animation
-		//Destroy (gameObject);
-		//astExplode.SetBool("explode", true);
 		explosion ();
 
 	}
