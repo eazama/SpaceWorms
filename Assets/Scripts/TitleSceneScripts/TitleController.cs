@@ -61,7 +61,7 @@ public class TitleController : MonoBehaviour {
 				//howToPlayText.text = "";
 				//startGameText.text = "";
 				//scoresText.text = "";
-				WASDArrowsText.text = "Move                            Shoot in specific direction";
+				WASDArrowsText.text = "Move                                   Shoot in specific direction";
 				spacebar.text = "Shoot All Available Shots";
 				instructions.text = "Destroy the oncoming waves of Space Worms before they\n" +
 									"devour the planets' atmospheres to get score!\n" +
@@ -86,7 +86,7 @@ public class TitleController : MonoBehaviour {
 				{
 					if (i == 10)
 					{
-						ScoreNumText.text += i +"        " + PlayerPrefs.GetInt("High Score" + i, 0) +"\n";
+						ScoreNumText.text += i +"         " + PlayerPrefs.GetInt("High Score" + i, 0) +"\n";
 					}
 					else 
 					{
