@@ -32,39 +32,19 @@ public class Centipede : MonoBehaviour {
 		}
 
 		if (gameController.areaNumber % 5 == 1) {//green
-			currentColor = gameObject.renderer.material.color;
-			currentColor.r = 0.1f;
-			currentColor.g = 1;
-			currentColor.b = 0.1f;
-			gameObject.renderer.material.color = currentColor;
+			gameObject.renderer.material.color = new Color(.1f, 1, .1f);
 		}
 		else if (gameController.areaNumber % 5 == 2) {//pink
-			currentColor = gameObject.renderer.material.color;
-			currentColor.r = 0.973f;
-			currentColor.g = 0.153f;
-			currentColor.b = 0.984f;
-			gameObject.renderer.material.color = currentColor;
+			gameObject.renderer.material.color = new Color(.973f, .153f, .984f);
 		}
 		else if (gameController.areaNumber % 5 == 3) {//red
-			currentColor = gameObject.renderer.material.color;
-			currentColor.r = 1;
-			currentColor.g = 0.1f;
-			currentColor.b = 0.1f;
-			gameObject.renderer.material.color = currentColor;
+			gameObject.renderer.material.color = new Color(1, .1f, .1f);
 		}
 		else if (gameController.areaNumber % 5 == 4) {///blue
-			currentColor = gameObject.renderer.material.color;
-			currentColor.r = 0;
-			currentColor.g = 0.851f;
-			currentColor.b = 0.965f;
-			gameObject.renderer.material.color = currentColor;
+			gameObject.renderer.material.color = new Color(0,.851f, .965f);
 		}
 		else {//white
-			currentColor = gameObject.renderer.material.color;
-			currentColor.r = 1;
-			currentColor.g = 1;
-			currentColor.b = 1;
-			gameObject.renderer.material.color = currentColor;
+			gameObject.renderer.material.color = new Color(1,1,1);
 		}
 	}
 	
@@ -102,7 +82,6 @@ public class Centipede : MonoBehaviour {
 		}
 		if (reversing == true && col.tag == "Asteroid") {
 			Destroy (col.gameObject);
-			//addSegment(1);
 			return;
 		}
 		if (col.tag.Contains("Barrier") || col.tag == "Centipede" || col.tag == "Asteroid") {
@@ -113,7 +92,6 @@ public class Centipede : MonoBehaviour {
 			if(isFeeding){
 				return;
 			}
-			Debug.Log("Collision");
 			StopAllCoroutines();
 			if (nextSegment != null) {
 				nextSegment.startMove(nextSegment.rigidbody.position, gameObject.rigidbody.position);
@@ -133,7 +111,7 @@ public class Centipede : MonoBehaviour {
 			gameController.AddScore(100);
 		}
 		if (col.tag == "Planet") {
-			stopMove ();
+			stopMove();
 			stopWorm();
 			isFeeding = true;
 			wormEats.SetBool ("eatAtmosphere", true);
@@ -183,34 +161,30 @@ public class Centipede : MonoBehaviour {
 			break;
 		}
 
-		/*
 		if (origin == "top" || origin == "bottom") {
-			if (rigidbody.position.x >= 0) {
+			if (gameObject.transform.position.x >= 300) {
 				direction = "left";
-			} else {
+			} else if (gameObject.transform.position.x <= -300) {
 				direction = "right";
+			} else {
+				if( direction == "left"){
+					direction = "right";
+				} else if (direction == "right"){
+					direction = "left";
+				}
 			}
 		} else {
-			if (rigidbody.position.y >= 0) {
+			if (gameObject.transform.position.y >= 300) {
 				direction = "down";
-			} else {
+			} else if (gameObject.transform.position.y <= -300) {
 				direction = "up";
+			} else{
+				if(direction == "up"){
+					direction = "down";
+				} else if(direction == "down"){
+					direction = "up";
+				}
 			}
-		}*/
-
-		switch (direction) {
-		case "up":
-			direction = "down";
-			break;
-		case "down":
-			direction = "up";
-			break;
-		case "left":
-			direction = "right";
-			break;
-		case "right":
-			direction = "left";
-			break;
 		}
 		yield return StartCoroutine (MoveOnceDirection (direction));
 		StartCoroutine (MoveDirection(direction));
@@ -276,24 +250,8 @@ public class Centipede : MonoBehaviour {
 		cen.direction = direction;
 		cen.StartCoroutine(cen.MoveDirection(cen.direction));
 		cen.nextSegment = oldHead.GetComponent<Centipede> ().nextSegment;
-		cen.deathSound = oldHead.GetComponent<Centipede> ().deathSound;
+		//cen.deathSound = oldHead.GetComponent<Centipede> ().deathSound;
 		Destroy (oldHead);
-
-		/*nextSegment.StopAllCoroutines();
-		GameObject seg = nextSegment.gameObject;
-		SpriteRenderer sr = seg.GetComponent<SpriteRenderer>() as SpriteRenderer;
-		sr.sprite = Resources.Load<Sprite>("Centipede Head U");
-		Centipede segScript = seg.AddComponent<Centipede>();
-		CentipedeBody bodySeg = seg.GetComponent<CentipedeBody> ();
-		segScript.gameController = gameController;
-		segScript.nextSegment = bodySeg.nextSegment;
-		segScript.deathSound = deathSound;
-		Destroy(bodySeg);
-		segScript.StartCoroutine(segScript.MoveDirection(segScript.direction));
-		//if (segScript.nextSegment != null) {
-		//	segScript.nextSegment.startMove(segScript.nextSegment.transform.position, segScript.transform.position);
-		//}
-		segScript.restartWorm ();*/
 	}
 
 	public void startMove(Vector3 from, Vector3 to){
@@ -322,7 +280,6 @@ public class Centipede : MonoBehaviour {
 	}
 
 	public void addSegment(int segments){
-		Debug.Log ("addSegmentStart");
 		Centipede lastSeg = this;
 		CentipedeBody newSeg;
 		while(lastSeg.nextSegment!=null){
@@ -336,6 +293,5 @@ public class Centipede : MonoBehaviour {
 			lastSeg.nextSegment = newSeg;
 			lastSeg = lastSeg.nextSegment;
 		}
-		Debug.Log ("addSegmentEnd");
 	}
 }

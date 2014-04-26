@@ -94,9 +94,9 @@ public class GameController : MonoBehaviour {
 	//function that spawns the layout
 	void spawnAsteroidLayout()
 	{
-		for (int row = 0; row < 25; row++)
+		for (int row = 1; row < 24; row++)
 		{
-			for (int col = 0; col < 25; col++)
+			for (int col = 1; col < 24; col++)
 			{
 				//prevents spawning on top of planet
 				if (Random.Range(0, 100) < asteroidDensity && !( row <= 15 && row > 8 && col <= 15 && col > 8))
