@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour {
 	//public GameObject asteroid;
 	public Asteroid asteroid;
 	public Atmosphere atmos;
+	public Planet planet;
 	public AudioSource BackgroundMusic;
 	public AudioSource GameOverMusic;
 	public AudioSource lifeUpSound;
@@ -217,6 +218,7 @@ public class GameController : MonoBehaviour {
 		}
 		atmos.health = 101;
 		atmos.subtractHealth ();
+		planet.changePlanet ();
 		for (int i = 100; i >= 1; i-=1) {
 			c = whiteScreen.gameObject.renderer.material.color;
 			value = i/100f;
