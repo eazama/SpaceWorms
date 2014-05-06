@@ -13,12 +13,12 @@ public class PlayerCursor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (currentPos != 3) {
-			if (Input.GetKeyDown (KeyCode.S) && currentPos < 2) {
+			if ((Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && currentPos < 2) {
 				currentPos++;
 				transform.position = positions [currentPos];
 				audio.PlayOneShot (selectSound);
 			}
-			if (Input.GetKeyDown (KeyCode.W) && currentPos > 0) {
+			if ((Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && currentPos > 0) {
 				currentPos--;
 				transform.position = positions [currentPos];
 				audio.PlayOneShot (selectSound);
