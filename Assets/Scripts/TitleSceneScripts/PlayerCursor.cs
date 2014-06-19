@@ -25,4 +25,9 @@ public class PlayerCursor : MonoBehaviour {
 			}
 		}
 	}
+
+	public void positionChanged()
+	{
+		audio.PlayOneShot (selectSound);
+	}
 }

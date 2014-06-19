@@ -19,7 +19,10 @@ public class HighScoreClick : MonoBehaviour {
 
 	void OnMouseEnter()
 	{
-		titleController.cursor.currentPos = 2;
-		titleController.cursor.transform.position = titleController.cursor.positions [titleController.cursor.currentPos];
+		if(titleController.cursor.currentPos != 2){
+			titleController.cursor.currentPos = 2;
+			titleController.cursor.positionChanged ();
+			titleController.cursor.transform.position = titleController.cursor.positions [titleController.cursor.currentPos];
+		}
 	}
 }

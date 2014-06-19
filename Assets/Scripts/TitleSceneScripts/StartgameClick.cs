@@ -19,7 +19,10 @@ public class StartgameClick : MonoBehaviour {
 
 	void OnMouseEnter()
 	{
-		titleController.cursor.currentPos = 0;
-		titleController.cursor.transform.position = titleController.cursor.positions [titleController.cursor.currentPos];
+		if(titleController.cursor.currentPos != 0){
+			titleController.cursor.currentPos = 0;
+			titleController.cursor.positionChanged ();
+			titleController.cursor.transform.position = titleController.cursor.positions [titleController.cursor.currentPos];
+		}
 	}
 }

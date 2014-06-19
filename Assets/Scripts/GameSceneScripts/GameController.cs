@@ -198,6 +198,15 @@ public class GameController : MonoBehaviour {
 			GameOverMusic.Play();
 		}
 		insertHighScore (score);
+		if(GameObject.FindGameObjectWithTag ("KongregateAPI") != null)
+		{
+			KongregateAPI Kong = GameObject.FindGameObjectWithTag("KongregateAPI").GetComponent<KongregateAPI>();
+			if(Kong.Connected)
+			{
+				Kong.Submit("Highest Score", PlayerPrefs.GetInt ("High Score" + 1, 0));
+				Kong.Submit("Most Planets Reached", PlayerPrefs.GetInt ("Most Planets Reached", 0));
+			}
+		}
 	}
 
 	IEnumerator changeArea()
@@ -231,6 +240,9 @@ public class GameController : MonoBehaviour {
 	public void insertHighScore(int newScore)
 	{
 		int tempScore;
+		if (PlayerPrefs.GetInt ("Most Planets Reached", 0) < areaNumber) {
+			PlayerPrefs.SetInt ("Most Planets Reached", areaNumber);
+		}
 		for (int i = 1; i <=10; i++) {
 			if (PlayerPrefs.GetInt ("High Score" + i, 0) < newScore) {
 				tempScore = PlayerPrefs.GetInt ("High Score" + i, 0);

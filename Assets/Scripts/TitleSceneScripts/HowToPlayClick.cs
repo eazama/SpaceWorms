@@ -20,7 +20,10 @@ public class HowToPlayClick : MonoBehaviour {
 
 	void OnMouseEnter()
 	{
-		titleController.cursor.currentPos = 1;
-		titleController.cursor.transform.position = titleController.cursor.positions [titleController.cursor.currentPos];
+		if(titleController.cursor.currentPos != 1){
+			titleController.cursor.currentPos = 1;
+			titleController.cursor.positionChanged ();
+			titleController.cursor.transform.position = titleController.cursor.positions [titleController.cursor.currentPos];
+		}
 	}
 }
