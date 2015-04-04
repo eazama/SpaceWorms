@@ -15,8 +15,8 @@ public class CentipedeBody : Centipede {
 		if (col.gameObject.tag == "Bullet" && !dying) {
 			dying = true;
 			col.gameObject.SetActive(false);
-			audio.PlayOneShot(deathSound);
-			renderer.enabled = false;
+			GetComponent<AudioSource>().PlayOneShot(deathSound);
+			GetComponent<Renderer>().enabled = false;
 			DropAsteroid ();
 			if(nextSegment != null){
 				makeNextSegmentHead ();

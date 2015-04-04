@@ -25,22 +25,22 @@ public class Centipede : MonoBehaviour {
 		if (gameControllerObject != null) {
 			gameController = gameControllerObject.GetComponent <GameController>();
 		}
-		audio.enabled = true;
+		GetComponent<AudioSource>().enabled = true;
 
 		if (gameController.areaNumber % 5 == 1) {//green
-			gameObject.renderer.material.color = new Color(.1f, 1, .1f);
+			gameObject.GetComponent<Renderer>().material.color = new Color(.1f, 1, .1f);
 		}
 		else if (gameController.areaNumber % 5 == 2) {//pink
-			gameObject.renderer.material.color = new Color(.973f, .153f, .984f);
+			gameObject.GetComponent<Renderer>().material.color = new Color(.973f, .153f, .984f);
 		}
 		else if (gameController.areaNumber % 5 == 3) {//red
-			gameObject.renderer.material.color = new Color(1, .1f, .1f);
+			gameObject.GetComponent<Renderer>().material.color = new Color(1, .1f, .1f);
 		}
 		else if (gameController.areaNumber % 5 == 4) {///blue
-			gameObject.renderer.material.color = new Color(0,.851f, .965f);
+			gameObject.GetComponent<Renderer>().material.color = new Color(0,.851f, .965f);
 		}
 		else {//white
-			gameObject.renderer.material.color = new Color(1,1,1);
+			gameObject.GetComponent<Renderer>().material.color = new Color(1,1,1);
 		}
 	}
 	
@@ -90,15 +90,15 @@ public class Centipede : MonoBehaviour {
 			}
 			StopAllCoroutines();
 			if (nextSegment != null) {
-				nextSegment.startMove(nextSegment.rigidbody.position, gameObject.rigidbody.position);
+				nextSegment.startMove(nextSegment.GetComponent<Rigidbody>().position, gameObject.GetComponent<Rigidbody>().position);
 			}
 			StartCoroutine(ReverseDirection());
 		}
 		if (col.tag == "Bullet" &&!dying) {
 			dying = true;
 			col.gameObject.SetActive(false);
-			audio.PlayOneShot(deathSound);
-			renderer.enabled = false;
+			GetComponent<AudioSource>().PlayOneShot(deathSound);
+			GetComponent<Renderer>().enabled = false;
 			DropAsteroid ();
 			if(nextSegment != null){
 				makeNextSegmentHead ();
@@ -128,9 +128,9 @@ public class Centipede : MonoBehaviour {
 		}
 		float startTime = Time.time;
 		float dist = Vector3.Distance(from, to);
-		while(gameObject.rigidbody.position != to){
+		while(gameObject.GetComponent<Rigidbody>().position != to){
 			float timePassed = (Time.time - startTime)*speed;
-			gameObject.rigidbody.position = Vector3.Lerp (from, to, timePassed/dist);
+			gameObject.GetComponent<Rigidbody>().position = Vector3.Lerp (from, to, timePassed/dist);
 			yield return null;
 		}
 		if (nextSegment != null) {
@@ -195,8 +195,8 @@ public class Centipede : MonoBehaviour {
 
 	IEnumerator MoveOnceDirection(string direction){
 
-		Vector3 pos = gameObject.rigidbody.position;
-		Vector3 newPos = gameObject.rigidbody.position;
+		Vector3 pos = gameObject.GetComponent<Rigidbody>().position;
+		Vector3 newPos = gameObject.GetComponent<Rigidbody>().position;
 		switch (direction) {
 		case "down":
 			gameObject.transform.eulerAngles = new Vector3(0,0,180);
@@ -269,7 +269,7 @@ public class Centipede : MonoBehaviour {
 	public void restartWorm(){
 		Centipede ns = this;
 		while (ns.nextSegment != null) {
-			ns.nextSegment.startMove(ns.nextSegment.rigidbody.position, ns.rigidbody.position);
+			ns.nextSegment.startMove(ns.nextSegment.GetComponent<Rigidbody>().position, ns.GetComponent<Rigidbody>().position);
 			ns = ns.nextSegment;
 		}
 	}

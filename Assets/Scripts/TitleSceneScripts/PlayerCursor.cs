@@ -16,18 +16,18 @@ public class PlayerCursor : MonoBehaviour {
 			if ((Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && currentPos < 2) {
 				currentPos++;
 				transform.position = positions [currentPos];
-				audio.PlayOneShot (selectSound);
+				GetComponent<AudioSource>().PlayOneShot (selectSound);
 			}
 			if ((Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && currentPos > 0) {
 				currentPos--;
 				transform.position = positions [currentPos];
-				audio.PlayOneShot (selectSound);
+				GetComponent<AudioSource>().PlayOneShot (selectSound);
 			}
 		}
 	}
 
 	public void positionChanged()
 	{
-		audio.PlayOneShot (selectSound);
+		GetComponent<AudioSource>().PlayOneShot (selectSound);
 	}
 }

@@ -26,8 +26,8 @@ public class Atmosphere : MonoBehaviour {
 
 	public void subtractHealth(){
 		health--;
-		Color c = gameObject.renderer.material.color;
+		Color c = gameObject.GetComponent<Renderer>().material.color;
 		c.a = ((float)health / 100);
-		gameObject.renderer.material.color = c;
+		gameObject.GetComponent<Renderer>().material.color = c;
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class HighScoreClick : MonoBehaviour {
+
 	private TitleController titleController;
 
 	void Start()
@@ -19,6 +20,7 @@ public class HighScoreClick : MonoBehaviour {
 
 	void OnMouseEnter()
 	{
+		Debug.Log ("Entered High Score");
 		if(titleController.cursor.currentPos != 2){
 			titleController.cursor.currentPos = 2;
 			titleController.cursor.positionChanged ();

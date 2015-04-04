@@ -36,24 +36,24 @@ public class PlayerMovement : MonoBehaviour {
 		if (canMove) 
 		{
 			if (Input.GetKey ("a")) {
-					Vector3 pos = rigidbody.position + (Vector3.left * playerSpeed * Time.deltaTime);
+					Vector3 pos = GetComponent<Rigidbody>().position + (Vector3.left * playerSpeed * Time.deltaTime);
 					pos.x = Mathf.Max (pos.x, leftClamp);			
-					rigidbody.position = pos;
+					GetComponent<Rigidbody>().position = pos;
 			}
 			if (Input.GetKey ("d")) {
-					Vector3 pos = rigidbody.position + (Vector3.right * playerSpeed * Time.deltaTime);
+					Vector3 pos = GetComponent<Rigidbody>().position + (Vector3.right * playerSpeed * Time.deltaTime);
 					pos.x = Mathf.Min (pos.x, rightClamp);			
-					rigidbody.position = pos;
+					GetComponent<Rigidbody>().position = pos;
 			}
 			if (Input.GetKey ("w")) {
-					Vector3 pos = rigidbody.position + (Vector3.up * playerSpeed * Time.deltaTime);
+					Vector3 pos = GetComponent<Rigidbody>().position + (Vector3.up * playerSpeed * Time.deltaTime);
 					pos.y = Mathf.Min (pos.y, upClamp);			
-					rigidbody.position = pos;
+					GetComponent<Rigidbody>().position = pos;
 			}
 			if (Input.GetKey ("s")) {
-					Vector3 pos = rigidbody.position + (Vector3.down * playerSpeed * Time.deltaTime);
+					Vector3 pos = GetComponent<Rigidbody>().position + (Vector3.down * playerSpeed * Time.deltaTime);
 					pos.y = Mathf.Max (pos.y, downClamp);			
-					rigidbody.position = pos;
+					GetComponent<Rigidbody>().position = pos;
 			}
 		}
 	}
@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour {
 				canShoot = false;
 				anim.SetBool ("shipdestroy", true);
 				Debug.Log ("Player Hit");
-				audio.PlayOneShot (deathSound);
+				GetComponent<AudioSource>().PlayOneShot (deathSound);
 				dying = true;
 			}
 		}
@@ -85,15 +85,15 @@ public class PlayerMovement : MonoBehaviour {
 		isInvulnerable = true;
 		for (int timer = 0; timer < 5; timer++) {
 			//change to red
-			Color c = gameObject.renderer.material.color;
+			Color c = gameObject.GetComponent<Renderer>().material.color;
 			c.r = (0.5f);
 			c.b = (0.5f);
-			gameObject.renderer.material.color = c;
+			gameObject.GetComponent<Renderer>().material.color = c;
 			yield return new WaitForSeconds (0.25f);
 			//change to normal
 			c.r = (1);
 			c.b = (1);
-			gameObject.renderer.material.color = c;
+			gameObject.GetComponent<Renderer>().material.color = c;
 			yield return new WaitForSeconds (0.25f);
 		}
 		isInvulnerable = false;

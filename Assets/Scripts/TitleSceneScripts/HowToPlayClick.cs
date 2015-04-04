@@ -20,6 +20,7 @@ public class HowToPlayClick : MonoBehaviour {
 
 	void OnMouseEnter()
 	{
+		Debug.Log ("Entered How To play");
 		if(titleController.cursor.currentPos != 1){
 			titleController.cursor.currentPos = 1;
 			titleController.cursor.positionChanged ();

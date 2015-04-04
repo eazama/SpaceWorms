@@ -12,16 +12,16 @@ public class PlayerBullet : MonoBehaviour {
 		switch(direction)
 		{
 		case "left":
-			rigidbody.position += (Vector3.left * bulletSpeed * Time.deltaTime);
+			GetComponent<Rigidbody>().position += (Vector3.left * bulletSpeed * Time.deltaTime);
 			break;
 		case "right":
-			rigidbody.position += (Vector3.right * bulletSpeed * Time.deltaTime);
+			GetComponent<Rigidbody>().position += (Vector3.right * bulletSpeed * Time.deltaTime);
 			break;
 		case "up":
-			 rigidbody.position += (Vector3.up * bulletSpeed * Time.deltaTime);
+			 GetComponent<Rigidbody>().position += (Vector3.up * bulletSpeed * Time.deltaTime);
 			break;
 		case "down":
-			rigidbody.position += (Vector3.down * bulletSpeed * Time.deltaTime);
+			GetComponent<Rigidbody>().position += (Vector3.down * bulletSpeed * Time.deltaTime);
 			break;
 		}
 

@@ -64,16 +64,16 @@ public class Asteroid : MonoBehaviour {
 		yield return new WaitForSeconds (1);
 		for (int timer = 0; timer < 3; timer++) {
 				//change to red, play warning
-			Color c = gameObject.renderer.material.color;
+			Color c = gameObject.GetComponent<Renderer>().material.color;
 			c.g = (0);
 			c.b = (0);
-			gameObject.renderer.material.color = c;
-			audio.PlayOneShot(warningBeep);
+			gameObject.GetComponent<Renderer>().material.color = c;
+			GetComponent<AudioSource>().PlayOneShot(warningBeep);
 			yield return new WaitForSeconds (0.25f);
 				//change to normal
 			c.g = (1);
 			c.b = (1);
-			gameObject.renderer.material.color = c;
+			gameObject.GetComponent<Renderer>().material.color = c;
 			yield return new WaitForSeconds (1);
 		}
 		explosion ();
@@ -99,7 +99,7 @@ public class Asteroid : MonoBehaviour {
 	}
 
 	void asteroidDestroy() {
-		audio.PlayOneShot (deathSound);
+		GetComponent<AudioSource>().PlayOneShot (deathSound);
 		Destroy (gameObject);
 		Debug.Log ("asteroid explodes");
 		GameObject.Find ("Atmosphere").GetComponent<Atmosphere> ().health -= 9;

@@ -19,6 +19,7 @@ public class StartgameClick : MonoBehaviour {
 
 	void OnMouseEnter()
 	{
+		Debug.Log ("Entered Start Game");
 		if(titleController.cursor.currentPos != 0){
 			titleController.cursor.currentPos = 0;
 			titleController.cursor.positionChanged ();

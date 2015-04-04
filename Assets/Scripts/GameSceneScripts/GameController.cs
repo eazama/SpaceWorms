@@ -212,27 +212,27 @@ public class GameController : MonoBehaviour {
 	IEnumerator changeArea()
 	{
 		//this is where the telportation animation should play and the planet should change color
-		Color c = whiteScreen.gameObject.renderer.material.color;
+		Color c = whiteScreen.gameObject.GetComponent<Renderer>().material.color;
 		c.a = (0);
-		whiteScreen.gameObject.renderer.material.color = c;
+		whiteScreen.gameObject.GetComponent<Renderer>().material.color = c;
 		whiteScreen.transform.position = new Vector3 (0, 0, 0);
 		float value;
 		teleportSound.Play ();
 		for (int i = 0; i < 100; i++) {
-			c = whiteScreen.gameObject.renderer.material.color;
+			c = whiteScreen.gameObject.GetComponent<Renderer>().material.color;
 			value = i/100f;
 			c.a = (value);
-			whiteScreen.gameObject.renderer.material.color = c;
+			whiteScreen.gameObject.GetComponent<Renderer>().material.color = c;
 			yield return new WaitForSeconds(0.0001f);
 		}
 		atmos.health = 101;
 		atmos.subtractHealth ();
 		planet.changePlanet ();
 		for (int i = 100; i >= 1; i-=1) {
-			c = whiteScreen.gameObject.renderer.material.color;
+			c = whiteScreen.gameObject.GetComponent<Renderer>().material.color;
 			value = i/100f;
 			c.a = (value);
-			whiteScreen.gameObject.renderer.material.color = c;
+			whiteScreen.gameObject.GetComponent<Renderer>().material.color = c;
 			yield return new WaitForSeconds(0.0001f);
 		}
 		spawnReady = true;
